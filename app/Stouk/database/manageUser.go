@@ -5,9 +5,9 @@ import (
 	"fmt"
 )
 
-func CreateUser(username string, key string) {
+func CreateUser(username string, password string) {
 	db := ConnectToDb()
-	_, err := db.Exec("INSERT INTO users (username, key) VALUES (?, ?)", username, key)
+	_, err := db.Exec("INSERT INTO users (Username, Password, Balance) VALUES (?, ?, ?)", username, password, 0)
 	if err != nil {
 		logs.LogToFile("db", err.Error())
 		panic(err)

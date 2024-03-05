@@ -11,11 +11,10 @@ import (
 var DataBase *sql.DB
 
 func ConnectToDb() *sql.DB {
-	db, err := sql.Open("mysql", "root:STOUK@tcp(localhost:3306)/Stouk-GAME")
+	db, err := sql.Open("mysql", "root:STOUK@tcp(stouk-db:3306)/Stouk-GAME")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
 	// Vérification de la connexion à la base de données
 	err = db.Ping()
