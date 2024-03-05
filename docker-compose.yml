@@ -1,0 +1,42 @@
+version: '3'
+ 
+services:
+  STOUK-GAME:
+    image: golang:latest
+    restart: unless-stopped
+    working_dir: /go/src/app
+    volumes:
+      - ./app:/go/src/app
+    ports:
+      - 443:443
+      - 80:80
+    command: ["tail", "-f", "/dev/null"]
+
+  stouk-db:
+    image: mariadb:latest
+    container_name: STOUK-GAME
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD=STOUK
+      - MARIADB_DATABASE=Stouk-GAME
+      - TZ=Europe/Paris
+    volumes:
+      - ./database/:/var/lib/mysql/
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=STOUK-GAME
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=STOUK
+      - TZ=Europe/Paris
+    ports:
+      - 8080:80
+    depends_on:
+      - STOUK-GAME
+    
