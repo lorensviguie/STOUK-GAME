@@ -1,2 +1,2 @@
-# STUCK-GAME
+# STOUK-GAME
 An illegal random casinon online
