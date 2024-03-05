@@ -1,0 +1,7 @@
+go 1.21.4
+
+use (
+	./app/main
+	./app/Stouk/Serveur
+	./app/Stouk/dice
+)
