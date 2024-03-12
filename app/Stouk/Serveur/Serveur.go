@@ -5,13 +5,21 @@ import (
 	"net/http"
 )
 
-func ServeurInit() { 
-	fmt.Println("Serveur is running on localhost:8000")
-	http.HandleFunc("/", Homehandler)
-	http.ListenAndServe(":8000", nil)
+type HtmlData struct {
+	IsLoggedIn  bool
+	IsModerator bool
+	IsAdmin     bool
 
+	PageName string
+
+	Fragments map[string]string
 }
 
-func Homehandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Hello, world!")
+func ServeurInit() { 
+	fmt.Println("Serveur is running on localhost:8000")
+
+	http.HandleFunc("/", Homehandler)
+	
+	http.ListenAndServe(":8000", nil)
+
 }
