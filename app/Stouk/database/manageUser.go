@@ -1,12 +1,12 @@
-package database
+package data
 
 import (
-	logs "STOUK/Stouk/logs"
+	"logs"
 	"fmt"
 )
 
 func CreateUser(username string, password string) {
-	db := ConnectToDb()
+	db := GetDatabase()
 	_, err := db.Exec("INSERT INTO users (Username, Password, Balance) VALUES (?, ?, ?)", username, password, 0)
 	if err != nil {
 		logs.LogToFile("db", err.Error())

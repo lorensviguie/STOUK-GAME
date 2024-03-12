@@ -1,12 +1,12 @@
 package main
 
 import (
-	db "STOUK/Stouk/database"
+	"data"
 	"serveur"
 )
 
 func main() {
 	serveur.ServeurInit()
-	db.CreateDB()
+	data.InitDatabase()
 }
 

@@ -1,7 +1,12 @@
-package database
+package data
+
+import (
+
+	_ "github.com/go-sql-driver/mysql"
+)
 
 func GetForUpdateLadder(idPlayer int) []int {
-	db := ConnectToDb()
+	db := GetDatabase()
 	defer db.Close()
 	var data []int
 	err := db.QueryRow("SELECT Rank, MMR FROM LADDER WHERE ID_USER = ?", idPlayer).Scan(&data[0], &data[1])

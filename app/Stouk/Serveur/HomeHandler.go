@@ -1,6 +1,7 @@
 package serveur 
 
 import (
+	"data"
 	"net/http"
 	"html/template"
 )
@@ -14,6 +15,7 @@ func Homehandler(w http.ResponseWriter, r *http.Request) {
 		IsModerator: false,
 		IsAdmin: false,
 	}
+
 	cookie, err := r.Cookie("uuid")
 	if err != nil {
 		htmlData.IsLoggedIn = false

@@ -1,12 +1,52 @@
-package database
+package data
 
 import (
 	"fmt"
 	"log"
+	"logs"
+	"database/sql"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
+
+const (
+	databaseHost     = "localhost"
+	databasePort     = "3306"
+	databaseUser     = "root"
+	databasePassword = ""
+	databaseName     = "BA"
+)
+
+var db *sql.DB
+
+func InitDatabase() bool {
+	var err error
+	db, err = sql.Open("mysql", databaseUser+":"+databasePassword+"@tcp("+databaseHost+":"+databasePort+")/"+databaseName+"?parseTime=true")
+	if err != nil {
+		logs.LogToFile("Error while connecting to the database: " + err.Error(), "error")
+	}
+	var err1 error
+	db, err1 = sql.Open("mysql", databaseUser+":"+databasePassword+"@tcp(ba-db)/"+databaseName+"?parseTime=true")
+	if err1 != nil {
+		logs.LogToFile("Error while connecting to the database: " + err1.Error(), "error")
+		return false
+	}
+	return true
+}
+
+func GetDatabase() *sql.DB {
+	return db
+}
+
+func CloseDatabase() bool {
+	db.Close()
+	return true
+}
+
+
 func CreateDB() {
-	var db = ConnectToDb()
+	InitDatabase()
 	defer db.Close()
 
 	// Création de la table USERS

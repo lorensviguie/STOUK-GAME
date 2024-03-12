@@ -1,7 +1,10 @@
 go 1.21.4
 
 use (
-	./app/main
+	./app
 	./app/Stouk/Serveur
+	./app/Stouk/database
 	./app/Stouk/dice
+	./app/Stouk/logs
+	./app/main
 )

@@ -8,14 +8,14 @@ package ladder
 //
 
 import (
-	db "STOUK/Stouk/database"
+	"data"
 )
 //le rank il va de 0 a autant que le veut mais il doit avoir un max theorique de 4500 a plus on monte plus c'est dur de monté
 //data : 0 rank / 1 mmr / 2 nombre  win / 3 nombre lose / 5 rankmoyen
 // de base on perd 20 on gagne 20
 
 func updateRankforPlayer(IdPlayer int,win bool,score []int) int{
-	data := db.GetForUpdateLadder(IdPlayer)
+	data := data.GetForUpdateLadder(IdPlayer)
 	if win {
 
 	}else{
