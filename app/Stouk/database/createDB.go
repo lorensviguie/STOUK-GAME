@@ -1,14 +1,13 @@
 package data
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"logs"
-	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
 )
-
 
 const (
 	databaseHost     = "localhost"
@@ -24,12 +23,12 @@ func InitDatabase() bool {
 	var err error
 	db, err = sql.Open("mysql", databaseUser+":"+databasePassword+"@tcp("+databaseHost+":"+databasePort+")/"+databaseName+"?parseTime=true")
 	if err != nil {
-		logs.LogToFile("Error while connecting to the database: " + err.Error(), "error")
+		logs.LogToFile("Error while connecting to the database: "+err.Error(), "error")
 	}
 	var err1 error
 	db, err1 = sql.Open("mysql", databaseUser+":"+databasePassword+"@tcp(ba-db)/"+databaseName+"?parseTime=true")
 	if err1 != nil {
-		logs.LogToFile("Error while connecting to the database: " + err1.Error(), "error")
+		logs.LogToFile("Error while connecting to the database: "+err1.Error(), "error")
 		return false
 	}
 	return true
@@ -43,7 +42,6 @@ func CloseDatabase() bool {
 	db.Close()
 	return true
 }
-
 
 func CreateDB() {
 	InitDatabase()
@@ -93,4 +91,32 @@ func CreateDB() {
 		log.Fatal(err)
 	}
 	fmt.Println("Table RATIO created successfully")
+
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS DICE (
+		ID INT AUTO_INCREMENT PRIMARY KEY,
+		Name TEXT NOT NULL,
+		Price INT NOT NULL
+		);
+	`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Table DICE created successfully")
+
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS USER_DICE (
+		ID INT AUTO_INCREMENT PRIMARY KEY,
+		ID_USER INT NOT NULL,
+		ID_DICE INT NOT NULL,
+		Rank INT NOT NULL,
+		FOREIGN KEY (ID_USER) REFERENCES USERS(ID),
+		FOREIGN KEY (ID_DICE) REFERENCES DICE(ID)
+		);
+	`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Table USER_DICE created successfully")
+
 }

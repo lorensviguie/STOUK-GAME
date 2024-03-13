@@ -8,3 +8,5 @@ type PlayerData struct {
 	Lose      int
 	RankMoyen int
 }
+
+

@@ -10,7 +10,7 @@ import (
 //data : 0 rank / 1 mmr / 2 nombre  win / 3 nombre lose / 5 rankmoyen
 // de base on perd 20 on gagne 20
 
-func updateRankforPlayer(IdPlayer int, win bool, score []int) {
+func UpdateRankforPlayer(IdPlayer int, win bool, score []int) {
 	Player_data := data.GetForUpdateLadder(IdPlayer)
 	if win {
 		GainLP(Player_data, score)
