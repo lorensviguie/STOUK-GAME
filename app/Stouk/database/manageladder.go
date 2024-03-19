@@ -8,7 +8,6 @@ import (
 
 func GetForUpdateLadder(idPlayer int) structure.PlayerData {
 	db := GetDatabase()
-	defer db.Close()
 	var Player_data structure.PlayerData
 	err := db.QueryRow("SELECT Rank, MMR FROM LADDER WHERE ID_USER = ?", idPlayer).Scan(&Player_data.Rank, &Player_data.MMR)
 	if err != nil {
