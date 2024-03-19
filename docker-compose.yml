@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     working_dir: /go/src/app
     volumes:
-      - ./app:/go/src/app
+      - ./:/go/src/app
     ports:
       - 443:443
       - 80:80
