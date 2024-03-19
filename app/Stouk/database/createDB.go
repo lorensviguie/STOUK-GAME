@@ -15,7 +15,7 @@ const (
 	databasePort     = "3306"
 	databaseUser     = "root"
 	databasePassword = ""
-	databaseName     = "BA"
+	databaseName     = "Stouk-GAME"
 )
 
 var db *sql.DB
@@ -27,7 +27,7 @@ func InitDatabase() bool {
 		logs.LogToFile("Error while connecting to the database: " + err.Error(), "error")
 	}
 	var err1 error
-	db, err1 = sql.Open("mysql", databaseUser+":"+databasePassword+"@tcp(ba-db)/"+databaseName+"?parseTime=true")
+	db, err1 = sql.Open("mysql", databaseUser+":"+databasePassword+"@tcp(stouk-db)/"+databaseName+"?parseTime=true")
 	if err1 != nil {
 		logs.LogToFile("Error while connecting to the database: " + err1.Error(), "error")
 		return false
