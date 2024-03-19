@@ -18,7 +18,7 @@ type HtmlData struct {
 func ServeurInit() { 
 	fmt.Println("Serveur is running on localhost:8000")
 
-	//http.HandleFunc("/", Homehandler)
+	http.HandleFunc("/", Homehandler)
 	
 	http.ListenAndServe(":8000", nil)
 
