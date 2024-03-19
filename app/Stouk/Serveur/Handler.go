@@ -8,8 +8,7 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	// the path of the page is /app/Stouk/src/home.html
-	tmpl, err := template.ParseFiles("../Stouk/src/home.html")
+	tmpl, err := template.ParseFiles("../Stouk/templates/home.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -17,7 +16,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	tepl, err := template.ParseFiles("../Stouk/src/loginregister.html")
+	tepl, err := template.ParseFiles("../Stouk/templates/loginregister.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -38,7 +37,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("../Stouk/src/register.html")
+	tmpl, err := template.ParseFiles("../Stouk/templates/register.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
