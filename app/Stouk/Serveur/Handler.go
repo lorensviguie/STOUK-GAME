@@ -1,13 +1,13 @@
-package serveur 
+package serveur
 
 import (
-	"net/http"
-	"html/template"
-	"fmt"
 	"data"
+	"fmt"
+	"html/template"
+	"net/http"
 )
 
-func Homehandler(w http.ResponseWriter, r *http.Request) {
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	// the path of the page is /app/Stouk/src/home.html
 	tmpl, err := template.ParseFiles("../Stouk/src/home.html")
 	if err != nil {

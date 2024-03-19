@@ -8,23 +8,28 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const (
-	databaseHost     = "localhost"
-	databasePort     = "3306"
-	databaseUser     = "root"
-	databasePassword = "STOUK"
-	databaseName     = "Stouk-GAME"
-)
+// const (
+// 	databaseUser     = "root"
+// 	databasePassword = "STOUK"
+// 	databaseName     = "Stouk-GAME"
+// 	databaseHost     = "localhost"
+// 	databasePort     = "3306"
+// )
 
 var DB *sql.DB
 
 func InitDatabase() bool {
 	var err error
-	DB, err = sql.Open("mysql", databaseUser+":"+databasePassword+"@tcp("+databaseHost+":"+databasePort+")/"+databaseName+"?parseTime=true")
+	DB, err = sql.Open("mysql", "root:STOUK@tcp(localhost:3306)/Stouk-GAME")
 	if err != nil {
-		fmt.Println("Error while connecting to the database: "+err.Error(), "error")
+		log.Fatal(err)
 	}
-	fmt.Println("data base initialyse")
+
+	err = DB.Ping()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Connected to the database")
 	return true
 }
 
