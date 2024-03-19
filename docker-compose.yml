@@ -1,5 +1,9 @@
 version: '3'
  
+networks:
+  Stouk-network:
+    driver: bridge
+
 services:
   STOUK-GAME:
     image: golang:latest
@@ -11,6 +15,8 @@ services:
       - 443:443
       - 80:80
     command: ["tail", "-f", "/dev/null"]
+    networks:
+      - Stouk-network
 
   stouk-db:
     image: mariadb:latest
@@ -24,6 +30,8 @@ services:
       - ./database/:/var/lib/mysql/
     ports:
       - 3306:3306
+    networks:
+      - Stouk-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -39,4 +47,6 @@ services:
       - 8080:80
     depends_on:
       - STOUK-GAME
+    networks:
+      - Stouk-network
     
