@@ -46,28 +46,58 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	var userInfo structure.Account
-	if r.Method == "POST" {
-		fmt.Println("Registering user")
-		userInfo.Username = r.FormValue("username")
-		userInfo.Email = r.FormValue("email")
-		userInfo.Password = r.FormValue("password")
-		fmt.Println(userInfo.Username, userInfo.Password)
-		registerErr := data.Register(userInfo.Username, userInfo.Password, userInfo.Email)
-		uuidErr := data.SetAccountUUID(userInfo.Email)
-		if registerErr == nil && uuidErr {
-			fmt.Println("User " + userInfo.Username + " is registered")
+
+	switch r.Method {
+	case "GET":
+		t, err := template.ParseFiles("../Stouk/templates/register.html")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		var IsLoggedIn bool
+		cookie, err := r.Cookie("uuid")
+		if err != nil {
+			fmt.Println(err)
+			IsLoggedIn = false
+		} else {
+			IsLoggedIn = data.CheckAccountUUID(cookie.Value)
+			if IsLoggedIn {
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+			}
+		}
+
+		// prepareDataWithFragments(&data)
+		t.Execute(w, nil)
+	case "POST":
+		username := r.FormValue("username")
+		email := r.FormValue("email")
+		password := r.FormValue("password")
+		confirmpassword := r.FormValue("confirmpassword")
+
+		fmt.Println(password)
+		fmt.Println(confirmpassword)
+
+		bool := confirmpassword == password
+		fmt.Println(bool)
+
+		if password == confirmpassword {
+			data.AddUser(username, password, email)
+
+			cookie := http.Cookie{
+				Name:  "uuid",
+				Value: data.SetAccountUUID(email),
+			}
+			http.SetCookie(w, &cookie)
+
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
-			fmt.Println("User " + userInfo.Username + " is not registered")
-			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			fmt.Println("Passwords do not match HERE")
+			t, err := template.ParseFiles("../Stouk/templates/register.html")
+			if err != nil {
+				fmt.Println(err)
+			}
+			// prepareDataWithFragments(&data)
+			t.Execute(w, nil)
 		}
 	}
-	fmt.Println("Page loaded")
-	temp, err := template.ParseFiles("../Stouk/templates/register.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	temp.Execute(w, nil)
 }

@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Register(username, password, email string) error {
+func AddUser(username, password, email string) error {
 db := GetDatabase()
 tx, err := db.Begin()
 if err != nil {
