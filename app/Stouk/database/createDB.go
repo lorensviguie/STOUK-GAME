@@ -20,7 +20,7 @@ var DB *sql.DB
 
 func InitDatabase() bool {
 	var err error
-	DB, err = sql.Open("mysql", "root:STOUK@tcp(stouk-db:3306)/Stouk-GAME")
+	DB, err = sql.Open("mysql", "root:STOUK@tcp(localhost:3306)/Stouk-GAME")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,13 +50,14 @@ func CreateDB() {
 			ID INT AUTO_INCREMENT PRIMARY KEY,
 			Username TEXT NOT NULL,
 			Password TEXT NOT NULL,
+			Email TEXT NOT NULL,
 			Balance INT NOT NULL
 		);
 	`)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Table USERS created successfully")
+	fmt.Println("Table ACCOUNT created successfully")
 
 	// Création de la table LADDER
 	_, err = DB.Exec(`
@@ -115,5 +116,19 @@ func CreateDB() {
 		log.Fatal(err)
 	}
 	fmt.Println("Table USER_DICE created successfully")
+
+	_, err = DB.Exec(`
+		CREATE TABLE IF NOT EXISTS ACCOUNT_UUID (
+		ID INT AUTO_INCREMENT PRIMARY KEY,
+		ID_USER INT NOT NULL,
+		UUID TEXT NOT NULL,
+		CREATE_DATE DATE NOT NULL,
+		FOREIGN KEY (ID_USER) REFERENCES USERS(ID)
+		);
+	`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Table ACCOUNT_UUID created successfully")
 
 }
