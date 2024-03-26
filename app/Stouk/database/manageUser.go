@@ -4,11 +4,12 @@ import (
 	"database/sql"
 	"fmt"
 	"logs"
+	"structure"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Register(username, password string) error {
+func AddUser(username, password, email string) error {
 db := GetDatabase()
 tx, err := db.Begin()
 if err != nil {
@@ -21,13 +22,17 @@ if err != nil {
 	return err
 }
 
-_, err = tx.Exec("INSERT INTO users (Username, Password, Balance) VALUES (?, ?, ?)", username, hashedPassword, 0)
+_, err = tx.Exec("INSERT INTO users (Username, Password, Email, Balance) VALUES (?, ?, ?, ?)", username, hashedPassword, email, 0)
 if err != nil {
 	return err
 }
 if err = tx.Commit(); err != nil {
 	return err
 }
+// set new account uuid
+
+
+
     
     fmt.Println(username)
     logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
@@ -62,3 +67,18 @@ func HashPassword(password string) (string, error) {
     }
     return string(hashedPassword), nil
 }
+
+func GetAccountByEmail(email string, withDefer bool) structure.Account {
+	db := GetDatabase()
+
+	var account structure.Account
+    err := db.QueryRow("SELECT ID, Username, Email FROM users WHERE Email = ?", email).Scan(&account.Id, &account.Username, &account.Email)
+    if err != nil {
+        if err == sql.ErrNoRows {
+            return structure.Account{}
+        }
+        return structure.Account{}
+    }
+    return account
+}
+

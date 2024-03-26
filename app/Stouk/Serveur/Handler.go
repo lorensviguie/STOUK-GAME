@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"structure"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -13,47 +14,90 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tmpl.Execute(w, nil)
-}
-func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	tepl, err := template.ParseFiles("../Stouk/templates/loginregister.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	tepl.Execute(w, nil)
+	data := structure.Account{}
+	tmpl.Execute(w, data)
 
+}
+
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	var userInfo structure.Account
 	if r.Method == "POST" {
-		username := r.FormValue("username")
-		password := r.FormValue("password")
-		if data.Login(username, password) {
-			fmt.Println("User " + username + " is logged in")
+		fmt.Println("Logging in user")
+		userInfo.Username = r.FormValue("username")
+		userInfo.Password = r.FormValue("password")
+		fmt.Println(userInfo.Username, userInfo.Password)
+		err := data.Login(userInfo.Username, userInfo.Password)
+		if !err {
+			fmt.Println("User " + userInfo.Username + " is logged in")
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
-			fmt.Println("User " + username + " is not logged in")
+			fmt.Println("User " + userInfo.Username + " is not logged in")
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 	}
-}
-
-func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("../Stouk/templates/register.html")
+	fmt.Println("Page loaded")
+	temp, err := template.ParseFiles("../Stouk/templates/login.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	tmpl.Execute(w, nil)
+	temp.Execute(w, nil)
 
-	if r.Method == "POST" {
-		username := r.FormValue("username")
-		password := r.FormValue("password")
-		err := data.Register(username, password)
+}
+
+func RegisterHandler(w http.ResponseWriter, r *http.Request) {
+
+	switch r.Method {
+	case "GET":
+		t, err := template.ParseFiles("../Stouk/templates/register.html")
 		if err != nil {
-			fmt.Println("User " + username + " is not registered")
+			fmt.Println(err)
+		}
+
+		var IsLoggedIn bool
+		cookie, err := r.Cookie("uuid")
+		if err != nil {
+			fmt.Println(err)
+			IsLoggedIn = false
+		} else {
+			IsLoggedIn = data.CheckAccountUUID(cookie.Value)
+			if IsLoggedIn {
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+			}
+		}
+
+		// prepareDataWithFragments(&data)
+		t.Execute(w, nil)
+	case "POST":
+		username := r.FormValue("username")
+		email := r.FormValue("email")
+		password := r.FormValue("password")
+		confirmpassword := r.FormValue("confirmpassword")
+
+		fmt.Println(password)
+		fmt.Println(confirmpassword)
+
+		bool := confirmpassword == password
+		fmt.Println(bool)
+
+		if password == confirmpassword {
+			data.AddUser(username, password, email)
+
+			cookie := http.Cookie{
+				Name:  "uuid",
+				Value: data.SetAccountUUID(email),
+			}
+			http.SetCookie(w, &cookie)
+
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
-			fmt.Println("User " + username + " is registered")
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			fmt.Println("Passwords do not match HERE")
+			t, err := template.ParseFiles("../Stouk/templates/register.html")
+			if err != nil {
+				fmt.Println(err)
+			}
+			// prepareDataWithFragments(&data)
+			t.Execute(w, nil)
 		}
 	}
 }
