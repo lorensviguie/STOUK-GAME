@@ -19,6 +19,7 @@ func ServeurInit() {
 	http.HandleFunc("/", HomeHandler)
 	http.HandleFunc("/login", LoginHandler)
 	http.HandleFunc("/register", RegisterHandler)
+	http.HandleFunc("/dice", DiceHandler)
 	http.ListenAndServe(":8000", nil)
 
 }
