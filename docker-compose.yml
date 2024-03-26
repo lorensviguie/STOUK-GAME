@@ -1,16 +1,16 @@
 version: '3'
- 
+
 services:
-  STOUK-GAME:
-    image: golang:latest
+  stouk-game:
+    build: .
     restart: unless-stopped
-    working_dir: /go/src/app
+    working_dir: /go/src/app         
     volumes:
-      - ./:/go/src/app
+      - ./:/go/src/app               
     ports:
       - 443:443
       - 80:80
-    command: ["tail", "-f", "/dev/null"]
+    command: ["bash", "-c", "tail -f /dev/null"]
 
   stouk-db:
     image: mariadb:latest
@@ -38,5 +38,4 @@ services:
     ports:
       - 8080:80
     depends_on:
-      - STOUK-GAME
-    
+      - stouk-game
