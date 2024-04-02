@@ -13,8 +13,8 @@ services:
     volumes:
       - ./:/go/src/app               
     ports:
-      - 443:443
-      - 80:80
+      - 442:442
+      - 81:81
     command: ["tail", "-f", "/dev/null"]
     networks:
       - Stouk-network
