@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func dice_20(rank int) int {
+func Roll_Scaledice(rank int) int {
 	rand.Seed(time.Now().UnixNano())
 
 	switch rank {

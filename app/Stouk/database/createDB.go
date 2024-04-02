@@ -20,7 +20,7 @@ var DB *sql.DB
 
 func InitDatabase() bool {
 	var err error
-	DB, err = sql.Open("mysql", "root:STOUK@tcp(localhost:3306)/Stouk-GAME")
+	DB, err = sql.Open("mysql", "root:STOUK@tcp(STOUK-GAME:3306)/Stouk-GAME")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -131,4 +131,11 @@ func CreateDB() {
 	}
 	fmt.Println("Table ACCOUNT_UUID created successfully")
 
+	Add_Dice("BaseDice", 10)
+	Add_Dice("NormalDice", 10)
+	Add_Dice("ParaboleDice", 10)
+	Add_Dice("PowerDice", 10)
+	Add_Dice("ScaleDice", 10)
+	Add_Dice("UnscaleDice", 10)
+	Add_Dice("RankDice", 10)
 }

@@ -1,9 +1,12 @@
 package serveur
 
 import (
+	"app/app/Stouk/ladder"
 	"data"
+	"dice"
 	"fmt"
 	"html/template"
+	"ladder"
 	"net/http"
 	"structure"
 )
@@ -99,5 +102,21 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 			// prepareDataWithFragments(&data)
 			t.Execute(w, nil)
 		}
+	}
+}
+
+func DiceGameWeb() {
+	print("\n\n--------------\nCOIN COIN COIN COIN\n----------------\n\n")
+	player1 := data.GetAllPlayerDataForGame("toto")
+	player2 := data.GetAllPlayerDataForGame("lolo")
+	Player1res, Player2res := dice.Dice_Game(player1, player2)
+	fmt.Println(Player1res)
+	fmt.Println(Player2res)
+	if Player1res.Game_res.Player1_Win > Player1res.Game_res.Player2_Win{
+		ladder.UpdateRankforPlayer(Player1res.Player_data.ID,true)
+		ladder.UpdateRankforPlayer(Player2res.Player_data.ID,false)
+	}else {
+		ladder.UpdateRankforPlayer(Player1res.Player_data.ID,false)
+		ladder.UpdateRankforPlayer(Player2res.Player_data.ID,true)
 	}
 }

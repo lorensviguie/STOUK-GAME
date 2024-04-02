@@ -2,6 +2,7 @@ package dice
 
 import (
 	"data"
+	"fmt"
 	"structure"
 )
 
@@ -16,6 +17,8 @@ func Dice_Game(Player1, Player2 structure.PlayerData) (structure.Game_Result, st
 
 	var Player1_Dice, _ = data.GetUserDice(Player1.ID)
 	var Player2_Dice, _ = data.GetUserDice(Player2.ID)
+	fmt.Println(Player1_Dice)
+	fmt.Println(Player2_Dice)
 
 	Player1_Game_Dice := Select5RandomDice(Player1_Dice)
 	Player1_Res.Dice_type = Merge5combatDice(Player1_Game_Dice)
@@ -45,10 +48,11 @@ func Dice_Game(Player1, Player2 structure.PlayerData) (structure.Game_Result, st
 		} else {
 			result.Player2_Win++
 		}
-		Player1_Res.Game_res = result
-		Player2_Res.Game_res = result
 
 	}
+	fmt.Println(result)
+	Player1_Res.Game_res = result
+	Player2_Res.Game_res = result
 	return Player1_Res, Player2_Res
 }
 

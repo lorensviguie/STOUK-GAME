@@ -7,5 +7,6 @@ import (
 
 func main() {
 	data.CreateDB()
-	serveur.ServeurInit()
+	serveur.DiceGameWeb()
+	//serveur.ServeurInit()
 }
