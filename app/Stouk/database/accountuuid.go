@@ -39,3 +39,11 @@ func CheckAccountUUID(uuid string) bool {
 	}
 	return count == 1
 }
+
+func RemoveAccountUUID(uuid string) {
+	db := GetDatabase()
+	_, err := db.Exec("DELETE FROM account_uuid WHERE uuid = ?", uuid)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
