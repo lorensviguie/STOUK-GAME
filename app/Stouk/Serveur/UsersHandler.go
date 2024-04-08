@@ -33,6 +33,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		email := r.FormValue("email")
 		password := r.FormValue("password")
+		fmt.Println(email, password)
 
 		if data.Login(email, password) {
 			cookie := http.Cookie{

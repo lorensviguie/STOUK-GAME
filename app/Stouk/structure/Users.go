@@ -6,15 +6,12 @@ type Account struct {
 	Username      string
 	Email         string
 	Password      string
-	IsModerator   bool
-	IsAdmin       bool
-	Image		 string
+	Balance	 	  int
+	Image		  string
 
 }
 
-type AccountUUID struct {
-	ID          int
-	account_id  int
-	uuid        string
-	create_date string
+
+type AdminData struct {
+	Users []Account
 }

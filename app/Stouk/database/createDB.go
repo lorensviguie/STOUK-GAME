@@ -51,7 +51,8 @@ func CreateDB() {
 			Username TEXT NOT NULL,
 			Password TEXT NOT NULL,
 			Email TEXT NOT NULL,
-			Balance INT NOT NULL
+			Balance INT NOT NULL,
+			IsAdmin BOOLEAN NOT NULL
 		);
 	`)
 	if err != nil {
