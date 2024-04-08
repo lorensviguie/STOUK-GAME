@@ -25,7 +25,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Écriture dans la réponse HTTP
 	switch r.Method {
 	case "GET":
-		t, err := template.ParseFiles("../Stouk/templates/login.html")
+		t, err := template.ParseFiles("./templates/login.html")
 		if err != nil {
 			fmt.Println(err.Error())
 		}
@@ -44,7 +44,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
 			fmt.Println("Wrong username or password")
-			t, err := template.ParseFiles("../Stouk/templates/login.html")
+			t, err := template.ParseFiles("./templates/login.html")
 			if err != nil {
 				fmt.Println(err.Error())
 			}
@@ -69,7 +69,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
     switch r.Method {
     case "GET":
-        t, err := template.ParseFiles("../Stouk/templates/register.html")
+        t, err := template.ParseFiles("./templates/register.html")
         if err != nil {
             fmt.Println(err)
         }
@@ -98,7 +98,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
 			fmt.Println("Passwords do not match HERE")
-			t, err := template.ParseFiles("../Stouk/templates/register.html")
+			t, err := template.ParseFiles("./templates/register.html")
 			if err != nil {
 				fmt.Println(err)
 			}
