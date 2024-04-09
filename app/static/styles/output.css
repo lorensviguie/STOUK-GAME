@@ -544,7 +544,6 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .m-2 {
   margin: 0.5rem;
 }
@@ -553,8 +552,6 @@ video {
   margin-left: 0.5rem;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .ml-20 {
   margin-left: 5rem;
 }
@@ -563,24 +560,18 @@ video {
   margin-right: 5rem;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .mt-4 {
   margin-top: 1rem;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .mt-8 {
   margin-top: 2rem;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .block {
   display: block;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .flex {
   display: flex;
 }
@@ -589,13 +580,10 @@ video {
   height: 9rem;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .h-screen {
   height: 100vh;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .w-12 {
   width: 3rem;
 }
@@ -604,7 +592,6 @@ video {
   width: 100%;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -619,13 +606,10 @@ video {
   flex-direction: row;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .flex-nowrap {
   flex-wrap: nowrap;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .items-center {
   align-items: center;
 }
@@ -634,13 +618,10 @@ video {
   justify-content: flex-end;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .justify-center {
   justify-content: center;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .justify-self-end {
   justify-self: end;
 }
@@ -649,19 +630,14 @@ video {
   border-radius: 0.25rem;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .rounded-full {
   border-radius: 9999px;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .rounded-lg {
   border-radius: 0.5rem;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .border {
   border-width: 1px;
 }
@@ -690,29 +666,22 @@ video {
   background-color: rgb(127 29 29 / var(--tw-bg-opacity));
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .p-1 {
   padding: 0.25rem;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .p-4 {
   padding: 1rem;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .p-6 {
   padding: 1.5rem;
 }
 
-=======
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 .p-8 {
   padding: 2rem;
 }
 
-<<<<<<< HEAD:app/Stouk/src/styles/output.css
 .pl-1 {
   padding-left: 0.25rem;
 }
@@ -766,9 +735,4 @@ video {
     --tw-bg-opacity: 1;
     background-color: rgb(67 20 7 / var(--tw-bg-opacity));
   }
-=======
-.hover\:bg-red-800:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(153 27 27 / var(--tw-bg-opacity));
->>>>>>> 661941af24b1bf7c05999bfe47f7338cfc157671:app/static/styles/output.css
 }
