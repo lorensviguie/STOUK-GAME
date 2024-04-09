@@ -28,14 +28,9 @@ func Dice_Game(Player1, Player2 structure.PlayerData) (structure.Game_Result, st
 
 	for i := 0; i < 5; i++ {
 		Player1_Dice := Player1_Game_Dice[i]
-		Player1_Roll := Manage_Dice_Roll(Player1_Dice)
-
 		Player2_Dice := Player2_Game_Dice[i]
-		Player2_Roll := Manage_Dice_Roll(Player2_Dice)
-		for Player1_Roll == Player2_Roll {
-			Player1_Roll = Manage_Dice_Roll(Player1_Dice)
-			Player2_Roll = Manage_Dice_Roll(Player2_Dice)
-		}
+
+		Player1_Roll, Player2_Roll := roller_DICE(Player1_Dice,Player2_Dice)
 
 		Player1_Res.Your_Game_roll = append(Player1_Res.Your_Game_roll, Player1_Roll)
 		Player1_Res.Enemy_Game_roll = append(Player1_Res.Enemy_Game_roll, Player2_Roll)
@@ -64,4 +59,13 @@ func Merge5combatDice(MD []structure.Dice) structure.DiceGame {
 	res.Dice4 = MD[3]
 	res.Dice5 = MD[4]
 	return res
+}
+
+func roller_DICE(Player1_Dice, Player2_Dice structure.Dice)(int,int) {
+	Player1_roll := Manage_Dice_Roll(Player1_Dice)
+	Player2_roll := Manage_Dice_Roll(Player2_Dice)
+	if Player1_roll == Player2_roll {
+		Player1_roll,Player2_roll = roller_DICE(Player1_Dice, Player2_Dice)
+	}
+	return Player1_roll, Player2_roll
 }

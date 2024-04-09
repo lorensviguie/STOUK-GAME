@@ -10,27 +10,27 @@ import (
 //data : 0 rank / 1 mmr / 2 nombre  win / 3 nombre lose / 5 rankmoyen
 // de base on perd 20 on gagne 20
 
-func UpdateRankforPlayer(IdPlayer int, win bool) {
-	Player_data := data.GetForUpdateLadder(IdPlayer)
+func UpdateRankforPlayer(playerData structure.PlayerData, win bool) {
 	if win {
-		Player_data = GainLP(Player_data)
+		playerData.Rank = GainLP(playerData)
 	} else {
-		Player_data = LooseLP(Player_data)
+		playerData.Rank = LooseLP(playerData)
 	}
+	data.UpdateAllPlayerdataForGame(playerData)
 }
 
-func GainLP(player structure.PlayerData) structure.PlayerData {
+func GainLP(player structure.PlayerData) int {
 	lpChange := 20
 	coef := calculateMultiplierCoefficientForWin(player.Rank, player.MMR, player.RankMoyen)
 	fmt.Println(float64(coef))
 	player.Rank += int(float64(lpChange) * coef)
+	return player.Rank
 }
 
 // Perd des LP en fonction des résultats
-func LooseLP(player structure.PlayerData) structure.PlayerData {
+func LooseLP(player structure.PlayerData) int {
 	lpChange := 20
 	coef := calculateMultiplierCoefficientForLoss(player.Rank, player.MMR, player.RankMoyen)
-	fmt.Println(float64(coef))
 	player.Rank -= int(float64(lpChange) * coef)
-	return player
+	return player.Rank
 }
