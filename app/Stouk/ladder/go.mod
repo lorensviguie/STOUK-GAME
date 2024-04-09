@@ -1,3 +1,3 @@
-module app/app/Stouk/ladder
+module ladder
 
 go 1.21.6

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func LoloDice1(rank int) int {
+func Roll_Power_Dice(rank int) int {
 	rand.Seed(time.Now().UnixNano())
 	randomNumber := rand.Intn(100) + 1
 
@@ -37,15 +37,15 @@ func LoloDice1(rank int) int {
 	case 8:
 		// Master: un dé 5 au carré -5
 		number := (randomNumber % 5) + 1
-		return number*number -5
+		return number*number - 5
 	case 9:
 		// Grand Master: un d2 au cube *2
 		number := (randomNumber % 2) + 1
-		return (number*number*number)*2	
+		return (number * number * number) * 2
 	case 10:
 		// Challenger: un dé GM +2
 		number := (randomNumber % 2) + 1
-		return (number*number*number)*2	+2
+		return (number*number*number)*2 + 2
 	default:
 		return 0 // Gestion du cas par défaut
 	}

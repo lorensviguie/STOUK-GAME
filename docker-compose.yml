@@ -13,8 +13,8 @@ services:
     volumes:
       - ./:/go/src/app               
     ports:
-      - 443:443
-      - 80:80
+      - 443:8000
+      - 80:8000
     command: ["tail", "-f", "/dev/null"]
     networks:
       - Stouk-network
@@ -35,7 +35,7 @@ services:
       - Stouk-network
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin/phpmyadmin:latest 
     container_name: phpmyadmin
     restart: unless-stopped
     environment:

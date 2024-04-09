@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func RollBaseDice(rank int) int {
+func Roll_Base_Dice(rank int) int {
 	rand.Seed(time.Now().UnixNano())
 	randomNumber := rand.Intn(100) + 1
 
