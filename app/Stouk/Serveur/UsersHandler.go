@@ -33,12 +33,12 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		email := r.FormValue("email")
 		password := r.FormValue("password")
-		fmt.Println(email, password)
 
 		if data.Login(email, password) {
 			cookie := http.Cookie{
 				Name:  "uuid",
 				Value: data.SetAccountUUID(email),
+				HttpOnly: true,
 			}
 			http.SetCookie(w, &cookie)
 
@@ -93,6 +93,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 			cookie := http.Cookie{
 				Name:  "uuid",
 				Value: data.SetAccountUUID(email),
+				HttpOnly: true,
 			}
 			http.SetCookie(w, &cookie)
 

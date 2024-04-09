@@ -2,7 +2,6 @@ package serveur
 
 import (
 	"data"
-	"fmt"
 	"html/template"
 	"net/http"
 	"structure"
@@ -15,25 +14,21 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
     if data.IsAdmin(cookie.Value) {
-        fmt.Println(data.IsAdmin(cookie.Value))
         users, err := data.GetUsers()
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
-        tmpl, err := template.ParseFiles("./templates/admin.html")
+        tmpl, err := template.ParseFiles("./templates/admin.html", "./templates/fragments/header.html")
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
 
-        fmt.Println("Users: ", users)
-
         // Handle POST request separately to avoid interference with template execution
         if r.Method == "POST" {
             r.ParseForm()
             id := r.FormValue("id")
-            fmt.Println("ID: ", id)
             data.DeleteUser(id)
 			http.Redirect(w, r, "/panel-admin", http.StatusSeeOther)
             return
