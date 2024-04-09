@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"structure"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -54,27 +55,27 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-    cookie, err := r.Cookie("uuid")
-    if err != nil {
-        fmt.Println(err)
-    }
-    IsLoggedIn := false
-    if cookie != nil {
-        IsLoggedIn = data.CheckAccountUUID(cookie.Value)
-        if IsLoggedIn {
-            http.Redirect(w, r, "/", http.StatusSeeOther)
-            return
-        }
-    }
+	cookie, err := r.Cookie("uuid")
+	if err != nil {
+		fmt.Println(err)
+	}
+	IsLoggedIn := false
+	if cookie != nil {
+		IsLoggedIn = data.CheckAccountUUID(cookie.Value)
+		if IsLoggedIn {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+	}
 
-    switch r.Method {
-    case "GET":
-        t, err := template.ParseFiles("./templates/register.html")
-        if err != nil {
-            fmt.Println(err)
-        }
-        t.Execute(w, nil)
-    case "POST":
+	switch r.Method {
+	case "GET":
+		t, err := template.ParseFiles("./templates/register.html")
+		if err != nil {
+			fmt.Println(err)
+		}
+		t.Execute(w, nil)
+	case "POST":
 		username := r.FormValue("username")
 		email := r.FormValue("email")
 		password := r.FormValue("password")
@@ -117,4 +118,14 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	cookie.MaxAge = -1
 	http.SetCookie(w, cookie)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func Playgame(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("./templates/play.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	data := structure.Account{}
+	tmpl.Execute(w, data)
 }
