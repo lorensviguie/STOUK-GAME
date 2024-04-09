@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./static/styles/output.css"rel="stylesheet">
+    <title>STOUK</title>
+    <style>
+        body {
+            background-image: url('./static/images/tapis.jpg');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="w-full h-28 border-b border-b-orange-200 bg-orange-950">
+    </div>
+
+    <div id="popup" class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-200 p-6 rounded-full shadow-lg z-50">
+        <button id="accept-button" class="block m-1.5 p-4 bg-red-900 text-orange-200 rounded-full hover:bg-red-950 focus:outline-none focus:bg-red-950">Accepter</button>
+
+    </div>
+    
+    <div id="overlay" class="hidden fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"></div>
+    
+    <div class="mt-8 text-center">
+        <button id="start-button" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Démarrer le Timer</button>
+        <span id="timer-display" class="ml-2"></span>
+    </div>
+    
+    <script>
+        function showPopup() {
+            document.getElementById("popup").classList.remove("hidden");
+            document.getElementById("overlay").classList.remove("hidden");
+        }
+    
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            var intervalId = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+    
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+    
+                display.textContent = minutes + ":" + seconds;
+    
+                if (--timer < 0) {
+                    clearInterval(intervalId);
+                    timer = 0;
+                    showPopup();
+                }
+            }, 1000);
+        }
+    
+        document.getElementById("start-button").addEventListener("click", function() {
+            var duration = 3; // temps en secondes
+            var display = document.querySelector('#timer-display');
+            startTimer(duration, display);
+        });
+    </script>
+    
+</body>
+</html>

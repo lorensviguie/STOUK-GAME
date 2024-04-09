@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="/static/styles/output.css" rel="stylesheet">
+    <link href="./static/styles/output.css" rel="stylesheet">
     <title>Connexion</title>
 </head>
 <style>
     body {
-        background-image: url("../src/images/tapis.jpg");
+        background-image: url("./static/images/tapis.jpg");
         background-size: cover;
+        background-repeat: no-repeat;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -17,7 +18,7 @@
 </style>
 <body>
     <div class="flex justify-center items-center h-screen scale-150">
-        <a href="#" class="block max-w p-6 bg-orange-950 border border-b-orange-200 rounded-lg shadow dark:bg-orange-950">
+        <div class="block max-w p-6 bg-orange-950 border border-b-orange-200 rounded-lg shadow dark:bg-orange-950">
             <h2 class="text-center text-orange-200">Connexion</h2>
             <form action="/login" method="post">
                 <div class="m-2 flex flex-row">
@@ -32,7 +33,7 @@
                     <input type="submit" value="Connexion" class="bg-orange-950 text-orange-200 border border-orange-200 rounded p-1 pl-2 pr-2 hover:bg-red-800"></input>
                 </div>
             </form>
-        </a>
+        </div>
     </div>
 </body>
 </html>
