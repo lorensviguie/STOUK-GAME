@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/styles/output.css" rel="stylesheet">
+    <title>STOUK</title>    
+    <style>
+        body {
+            background-image: url("../static/images/tapis.jpg");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    {{ template "header.html" .}}
+    <div>
+        <ul>
+            {{ range .Users }}
+                <li>Utilisateur : {{ .Username }}, Solde : {{ .Balance }}</li>
+                <form method="POST">
+                    <input type="hidden" name="id" value="{{ .Id }}">
+                    <button type="submit">Supprimer</button>
+                </form>
+            {{ end }}
+        </ul>
+    </div>
+</body>
+</html> 

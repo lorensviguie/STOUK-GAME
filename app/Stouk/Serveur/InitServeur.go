@@ -22,7 +22,8 @@ func ServeurInit() {
 	http.HandleFunc("/login", LoginHandler)
 	http.HandleFunc("/register", RegisterHandler)
 	http.HandleFunc("/dice", DiceHandler)
-	http.HandleFunc("/play", Playgame)
+	http.HandleFunc("/panel-admin", AdminHandler)
+	http.HandleFunc("/compte", AccountHandler)
 	
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {

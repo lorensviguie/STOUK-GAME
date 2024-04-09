@@ -47,3 +47,14 @@ func RemoveAccountUUID(uuid string) {
 		fmt.Println(err)
 	}
 }
+
+func IsAdmin(uuid string) bool {
+	db := GetDatabase()
+	var isadmin int
+	err := db.QueryRow("SELECT USERS.IsAdmin FROM USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER WHERE ACCOUNT_UUID.UUID = ?", uuid).Scan(&isadmin)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(isadmin)
+	return isadmin == 1
+}

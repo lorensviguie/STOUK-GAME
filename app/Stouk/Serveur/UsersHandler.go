@@ -39,6 +39,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			cookie := http.Cookie{
 				Name:  "uuid",
 				Value: data.SetAccountUUID(email),
+				HttpOnly: true,
 			}
 			http.SetCookie(w, &cookie)
 
@@ -93,6 +94,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 			cookie := http.Cookie{
 				Name:  "uuid",
 				Value: data.SetAccountUUID(email),
+				HttpOnly: true,
 			}
 			http.SetCookie(w, &cookie)
 

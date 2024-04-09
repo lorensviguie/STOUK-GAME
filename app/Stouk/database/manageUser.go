@@ -23,58 +23,37 @@ func AddUser(username, password, email string) error {
 		return err
 	}
 
-	result, err := tx.Exec("INSERT INTO USERS (Username, Password, Email, Balance) VALUES (?, ?, ?, ?)", username, hashedPassword, email, 0)
-	if err != nil {
-		fmt.Println("Error inserting user:", err)
-		return err
-	}
-
-	// Obtenir l'ID de l'utilisateur inséré
-	userID, _ := result.LastInsertId()
-
-	// Insert user entry into LADDER table with default values
-	_, err = tx.Exec("INSERT INTO LADDER (ID_USER, Rank, MMR) VALUES (?, ?, ?)", userID, 1000, 1000) // Adjust default Rank and MMR as needed
-	if err != nil {
-		fmt.Println("Error inserting user into LADDER:", err)
-		return err
-	}
-
-	// Insert user entry into RATIO table with default values
-	_, err = tx.Exec("INSERT INTO RATIO (ID_USER, Win, Lose, RANK_MOYEN) VALUES (?, ?, ?, ?)", userID, 0, 0, 1000) // Adjust default Win, Lose, and RANK_MOYEN as needed
-	if err != nil {
-		fmt.Println("Error inserting user into RATIO:", err)
-		return err
-	}
-
-	if err = tx.Commit(); err != nil {
-		fmt.Println("Error committing transaction:", err)
-		return err
-	}
-
-	fmt.Println(username)
-	logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
-	return nil
+_, err = tx.Exec("INSERT INTO users (Username, Password, Email, Balance, IsAdmin) VALUES (?, ?, ?, ?, ?)", username, hashedPassword, email, 0, 0)
+if err != nil {
+	return err
+}
+if err = tx.Commit(); err != nil {
+	return err
+}
+    fmt.Println(username)
+    logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
+    return nil
 }
 
-func Login(username, password string) bool {
-	db := GetDatabase()
-
-	var storedPassword string
-	err := db.QueryRow("SELECT Password FROM users WHERE Username = ?", username).Scan(&storedPassword)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false
-		}
-		return false
-	}
-	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
-	if err != nil {
-		if err == bcrypt.ErrMismatchedHashAndPassword {
-			return false
-		}
-		return false
-	}
-	return true
+func Login(email, password string) bool {
+    db := GetDatabase()
+    
+    var storedPassword string
+    err := db.QueryRow("SELECT Password FROM users WHERE Email = ?", email).Scan(&storedPassword)
+    if err != nil {
+        if err == sql.ErrNoRows {
+            return false
+        }
+        return false
+    }
+    err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+    if err != nil {
+        if err == bcrypt.ErrMismatchedHashAndPassword {
+            return false
+        }
+        return false
+    }
+    return true
 }
 
 func HashPassword(password string) (string, error) {
@@ -99,6 +78,48 @@ func GetAccountByEmail(email string, withDefer bool) structure.Account {
 	return account
 }
 
+func GetUsers() ([]structure.Account, error) {
+    db := GetDatabase()
+
+    rows, err := db.Query("SELECT ID, Username, Email, Balance FROM users")
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+
+    var users []structure.Account
+    for rows.Next() {
+        var user structure.Account
+        err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Balance)
+        if err != nil {
+            return nil, err
+        }
+        users = append(users, user)
+    }
+    return users, nil
+}
+
+func DeleteUser(id string) error {
+    db := GetDatabase()
+    tx, err := db.Begin()
+    if err != nil {
+        return err
+    }
+    defer tx.Rollback()
+    
+    _, err = tx.Exec("DELETE FROM account_uuid WHERE ID_USER = ?", id)
+    if err != nil {
+        return err
+    }
+    _, err = tx.Exec("DELETE FROM users WHERE ID = ?", id)
+    if err != nil {
+        return err
+    }
+    if err = tx.Commit(); err != nil {
+        return err
+    }
+    return nil
+}
 func GetUserIDByUsername(username string) (int64, error) {
     db := GetDatabase() // Supposons que vous ayez une fonction GetDatabase() qui retourne une connexion à la base de données
 
