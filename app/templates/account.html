@@ -16,15 +16,39 @@
     {{ template "header.html" .}}
     <div>
         <ul>
-            {{ range .Users }}
-                <li>Utilisateur : {{ .Username }}, Solde : {{ .Balance }}</li>
-                <form method="POST">
-                    <input type="hidden" name="id" value="{{ .Id }}">
-                    <button type="submit">Supprimer</button>
-                </form>
-            {{ end }}
+            <form action="/update-username" method="post">
+                <li>
+                    Utilisateur : <input type="text" name="username" value="{{ .Username }}"> <button type="submit">Modifier</button>
+                    Utilisateur : {{ .Username }}
+                </li>
+            </form>
+            
+            <form action="/update-email" method="post">
+                <li>
+                    Email : <input type="email" name="email" value="{{ .Email }}"> <button type="submit">Modifier</button>
+                    Email : {{ .Email }}
+                </li>
+            </form>
+
+            <form action="/update-password" method="post">
+                <li>
+                    Nouveau mot de passe : <input type="password" name="newpassword" placeholder="Nouveau mot de passe">
+                    Mot de Passe : <input type="password" name="password" placeholder="Mot de passe actuel"> 
+                    <button type="submit">Modifier</button>
+                </li>
+            </form>
+            
+            <li>
+                Solde : {{ .Balance }}
+            </li>
+            <li>
+                Date de Création : {{ .CreationDate }}
+            </li>
         </ul>
     </div>
-    <p>dehfyzefngrhfezubejfzobezuhfoezjuvgbezujfezuhgnzuhjfnhijuerbgnzoiufhehibeifjeziuhgeziofhgnhz</p>
+
+    <form action="/logout" method="post">
+        <button type="submit">Déconnexion</button>
+    </form>
 </body>
 </html> 

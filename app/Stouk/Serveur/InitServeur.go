@@ -13,10 +13,15 @@ func ServeurInit() {
 	http.HandleFunc("/", HomeHandler)
 	http.HandleFunc("/login", LoginHandler)
 	http.HandleFunc("/register", RegisterHandler)
+	http.HandleFunc("/logout", LogoutHandler)
 	http.HandleFunc("/dice", DiceHandler)
 	http.HandleFunc("/panel-admin", AdminHandler)
 	http.HandleFunc("/compte", AccountHandler)
 	http.HandleFunc("/play", Playgame)
+	http.HandleFunc("/update-username", UpdateUsername)
+	http.HandleFunc("/update-email", UpdateEmail)
+	http.HandleFunc("/update-password", ChangePassword)
+	http.HandleFunc("/boutiquew", StoreHandler)
 	
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
