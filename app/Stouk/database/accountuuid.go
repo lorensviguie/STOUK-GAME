@@ -23,7 +23,7 @@ func SetAccountUUID(email string) string {
 	now := time.Now().UTC()
 
 	uuid := generateUUID()
-	_, err := db.Exec("INSERT INTO account_uuid (id_user, uuid, create_date) VALUES (?, ?, ?)", accountId, uuid, now)
+	_, err := db.Exec("INSERT INTO ACCOUNT_UUID (id_user, uuid, create_date) VALUES (?, ?, ?)", accountId, uuid, now)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -33,7 +33,7 @@ func SetAccountUUID(email string) string {
 func CheckAccountUUID(uuid string) bool {
 	db := GetDatabase()
 	var count int
-	err := db.QueryRow("SELECT COUNT(*) FROM account_uuid WHERE uuid = ?", uuid).Scan(&count)
+	err := db.QueryRow("SELECT COUNT(*) FROM ACCOUNT_UUID WHERE uuid = ?", uuid).Scan(&count)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -42,7 +42,7 @@ func CheckAccountUUID(uuid string) bool {
 
 func RemoveAccountUUID(uuid string) {
 	db := GetDatabase()
-	_, err := db.Exec("DELETE FROM account_uuid WHERE uuid = ?", uuid)
+	_, err := db.Exec("DELETE FROM ACCOUNT_UUID WHERE uuid = ?", uuid)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -57,4 +57,15 @@ func IsAdmin(uuid string) bool {
 	}
 	fmt.Println(isadmin)
 	return isadmin == 1
+}
+
+func GetIdByUUID(uuid string) (int, error) {
+    db := GetDatabase()
+
+    var id int
+    err := db.QueryRow("SELECT ID_USER FROM ACCOUNT_UUID WHERE UUID = ?", uuid).Scan(&id)
+    if err != nil {
+        return 0, err
+    }
+    return id, nil
 }
