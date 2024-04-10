@@ -52,7 +52,8 @@ func CreateDB() {
 			Password TEXT NOT NULL,
 			Email TEXT NOT NULL,
 			Balance INT NOT NULL,
-			IsAdmin BOOLEAN NOT NULL
+			IsAdmin BOOLEAN NOT NULL,
+			CreationDate DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
 		);
 	`)
 	if err != nil {

@@ -8,7 +8,7 @@ type Account struct {
 	Password      string
 	Balance	 	  int
 	Image		  string
-
+	CreationDate  string
 }
 
 

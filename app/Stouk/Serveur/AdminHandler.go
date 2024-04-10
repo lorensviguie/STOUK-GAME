@@ -14,7 +14,7 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
     if data.IsAdmin(cookie.Value) {
-        users, err := data.GetUsers()
+        users, err := data.GetAllUsers()
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
