@@ -10,7 +10,7 @@ import (
 func AccountHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("uuid")
 	if err != nil {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 	if data.CheckAccountUUID(cookie.Value) {
@@ -22,7 +22,7 @@ func AccountHandler(w http.ResponseWriter, r *http.Request) {
 		data := structure.Account{}
 		tmpl.Execute(w, data)
 	} else {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 }
