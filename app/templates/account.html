@@ -44,6 +44,18 @@
             <li>
                 Date de Création : {{ .CreationDate }}
             </li>
+            <li>
+                <form action="/update-profile-picture" method="post" enctype="multipart/form-data">
+                    <label for="profile-picture">Photo de profil :</label>
+                    <input type="file" name="profile-picture" id="profile-picture" accept="image/*">
+                    <button type="submit">Appliquer</button>
+                </form>
+                {{ if .ProfilePicture }}
+                    <img src="{{ .ProfilePicture }}" alt="Photo de profil">
+                {{ else }}
+                    <p>Aucune photo de profil sélectionnée</p>
+                {{ end }}
+            </li>
         </ul>
     </div>
 
