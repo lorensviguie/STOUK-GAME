@@ -14,6 +14,7 @@ type GameStorage struct {
 }
 
 type Game_Result struct {
+	PlayerName      string
 	Game_res        GameStorage
 	Dice_type       DiceGame
 	Player_data     PlayerData

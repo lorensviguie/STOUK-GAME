@@ -22,8 +22,8 @@ func ServeurInit() {
 	http.HandleFunc("/update-username", UpdateUsername)
 	http.HandleFunc("/update-email", UpdateEmail)
 	http.HandleFunc("/update-password", ChangePassword)
-	http.HandleFunc("/boutiquew", StoreHandler)
-	
+	http.HandleFunc("/boutique", StoreHandler)
+
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		fmt.Println(err.Error())

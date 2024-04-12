@@ -27,10 +27,27 @@ func SearchGame(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	idUser, _ := data.GetIdByUUID(cookie.Value)
-	print("this user search a Game : ", idUser, "\n")
+	playerName := data.GetUsernameByUserid(idUser)
+
+	fmt.Println("this user search a Game : ", idUser)
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintf(w, "<script>var timer = setTimeout(function() { window.location.href = '/redirect'; }, 5000);</script>")
+
 	queue.Add_User_To_Queue(idUser)
-	queue.CheckTagForUser(idUser)
-	fmt.Fprintf(w, "<script>clearTimeout(timer); window.location.href = '/results';</script>")
+	player_Res := queue.CheckTagForUser(idUser)
+	player_Res.PlayerName = playerName
+	tmplFile := "./templates/result.html"
+	tmpl, err := template.ParseFiles(tmplFile)
+	if err != nil {
+		fmt.Println("Erreur lors du chargement du fichier de modèle HTML :", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	err = tmpl.Execute(w, player_Res)
+	if err != nil {
+		fmt.Println("Erreur lors de l'exécution du modèle HTML :", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }
