@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultat du jeu</title>
+</head>
+<body>
+    <h1>Résultat du jeu</h1>
+    <h2>Résultat du jeu</h2>
+    <p>Nombre de victoires du joueur 1 : {{.Game_res.Player1_Win}}</p>
+    <p>Nombre de victoires du joueur 2 : {{.Game_res.Player2_Win}}</p>
+    <h2>Dés</h2>
+    <ul>
+        <li>Dé 1 : {{.Dice_type.Dice1}}</li>
+        <li>Dé 2 : {{.Dice_type.Dice2}}</li>
+        <li>Dé 3 : {{.Dice_type.Dice3}}</li>
+        <li>Dé 4 : {{.Dice_type.Dice4}}</li>
+        <li>Dé 5 : {{.Dice_type.Dice5}}</li>
+    </ul>
+    <h2>Données du joueur</h2>
+    <p>Nom du joueur : {{.PlayerName}}</p>
+    <p>Rank du joueur : {{.Player_data.Rank}}</p>
+    <p>Nombre de victoire du joueur : {{.Player_data.Win}}</p>
+    <p>Nombre de Defaite du joueur : {{.Player_data.Lose}}</p>
+    <h2>Votre lancer de dés</h2>
+    <ul>
+        {{range .Your_Game_roll}}
+        <li>{{.}}</li>
+        {{end}}
+    </ul>
+    <h2>Lancer de dés de l'ennemi</h2>
+    <ul>
+        {{range .Enemy_Game_roll}}
+        <li>{{.}}</li>
+        {{end}}
+    </ul>
+</body>
+</html>
