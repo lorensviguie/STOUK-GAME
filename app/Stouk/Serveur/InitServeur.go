@@ -18,7 +18,7 @@ func ServeurInit() {
 	http.HandleFunc("/panel-admin", AdminHandler)
 	http.HandleFunc("/compte", AccountHandler)
 	http.HandleFunc("/play", Playgame)
-	http.HandleFunc("/Queue", SearchGame)
+	http.HandleFunc("/queue", SearchGame)
 	http.HandleFunc("/update-username", UpdateUsername)
 	http.HandleFunc("/update-email", UpdateEmail)
 	http.HandleFunc("/update-password", ChangePassword)
