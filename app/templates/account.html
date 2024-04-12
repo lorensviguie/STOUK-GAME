@@ -12,55 +12,43 @@
         }
     </style>
 </head>
-<body>
+<body class="overflow-hidden">
+
     {{ template "header.html" .}}
-    <div>
-        <ul>
-            <form action="/update-username" method="post">
-                <li>
-                    Utilisateur : <input type="text" name="username" value="{{ .Username }}"> <button type="submit">Modifier</button>
-                    Utilisateur : {{ .Username }}
-                </li>
-            </form>
-            
-            <form action="/update-email" method="post">
-                <li>
-                    Email : <input type="email" name="email" value="{{ .Email }}"> <button type="submit">Modifier</button>
-                    Email : {{ .Email }}
-                </li>
-            </form>
 
-            <form action="/update-password" method="post">
-                <li>
-                    Nouveau mot de passe : <input type="password" name="newpassword" placeholder="Nouveau mot de passe">
-                    Mot de Passe : <input type="password" name="password" placeholder="Mot de passe actuel"> 
-                    <button type="submit">Modifier</button>
-                </li>
-            </form>
-            
-            <li>
-                Solde : {{ .Balance }}
-            </li>
-            <li>
-                Date de Création : {{ .CreationDate }}
-            </li>
-            <li>
-                <form action="/update-profile-picture" method="post" enctype="multipart/form-data">
-                    <label for="profile-picture">Photo de profil :</label>
-                    <input type="file" name="profile-picture" id="profile-picture" accept="image/*">
-                    <button type="submit">Appliquer</button>
+    <div class="flex justify-center items-center h-80 scale-150 mt-60">
+        <div class="block max-w p-6 bg-orange-950 border border-b-orange-200 rounded-lg shadow dark:bg-orange-950">
+            <ul>
+                <form action="/update-compte" method="post" class="m-1">
+                    <li class="text-orange-200 mt-1">
+                        Utilisateur : <input type="text" name="username" value="{{ .Username }}" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1"> 
+                    </li>
+                    <li class="text-orange-200 mt-1">
+                        Email : <input type="email" name="email" value="{{ .Email }} "  class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1">
+                    </li>
+                    <li class="text-orange-200 mt-1" >
+                        Nouveau mot de passe : <input type="password" name="newpassword" placeholder="Nouveau mot de passe"  class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1">
+                    </li>
+                    <li class="text-orange-200 mt-1">
+                        Mot de Passe : <input type="password" name="password" placeholder="Mot de passe actuel"  class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1"> 
+                        <button type="submit" class="bg-red-900 border border-orange-200 rounded-lg pr-1 pl-1 hover:bg-red-950">Modifier</button>
+                    </li>
                 </form>
-                {{ if .ProfilePicture }}
-                    <img src="{{ .ProfilePicture }}" alt="Photo de profil">
-                {{ else }}
-                    <p>Aucune photo de profil sélectionnée</p>
-                {{ end }}
-            </li>
-        </ul>
+                <li class="text-orange-200 m-1">
+                    Solde : {{ .Balance }}
+                </li>
+                <li class="text-orange-200 m-1">
+                    Date de Création : {{ .CreationDate }}
+                </li>
+                <form action="/update-profil-picture" method="post" enctype="multipart/form-data" class="m-1">
+                    <input type="file" id="profil-picture" name="profil-picture" accept="image/*"><br>
+                    <input type="submit" value="Enregistrer">
+                </form>
+            </ul>
+            <form action="/logout" method="post" class="m-1">
+                <button type="submit" class="text-orange-200 bg-red-900 border border-orange-200 rounded-lg pr-1 pl-1 hover:bg-red-950">Déconnexion</button>
+            </form>
+        </div>
     </div>
-
-    <form action="/logout" method="post">
-        <button type="submit">Déconnexion</button>
-    </form>
 </body>
 </html> 

@@ -23,37 +23,45 @@ func AddUser(username, password, email string) error {
 		return err
 	}
 
-_, err = tx.Exec("INSERT INTO users (Username, Password, Email, Balance, IsAdmin) VALUES (?, ?, ?, ?, ?)", username, hashedPassword, email, 0, 0)
-if err != nil {
-	return err
-}
-if err = tx.Commit(); err != nil {
-	return err
-}
-    fmt.Println(username)
-    logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
-    return nil
+	_, err = tx.Exec("INSERT INTO users (Username, Password, Email, Balance, IsAdmin) VALUES (?, ?, ?, ?, ?)", username, hashedPassword, email, 0, 0)
+	if err != nil {
+		return err
+	}
+
+	// userID, err := GetUserIDByUsername(username)
+	// if err != nil {
+	// 	return err
+	// }
+
+	// _, err = tx.Exec("INSERT INTO PROFIL_PICTURE (ID_USER, PICTURE) VALUES (?, ?)", userID, "./static/images/profilpicture/nopp.png")
+	// if err != nil {
+	// 	return err
+	// }
+
+	fmt.Println(username)
+	logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
+	return nil
 }
 
 func Login(email, password string) bool {
-    db := GetDatabase()
-    
-    var storedPassword string
-    err := db.QueryRow("SELECT Password FROM users WHERE Email = ?", email).Scan(&storedPassword)
-    if err != nil {
-        if err == sql.ErrNoRows {
-            return false
-        }
-        return false
-    }
-    err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
-    if err != nil {
-        if err == bcrypt.ErrMismatchedHashAndPassword {
-            return false
-        }
-        return false
-    }
-    return true
+	db := GetDatabase()
+
+	var storedPassword string
+	err := db.QueryRow("SELECT Password FROM users WHERE Email = ?", email).Scan(&storedPassword)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false
+		}
+		return false
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	if err != nil {
+		if err == bcrypt.ErrMismatchedHashAndPassword {
+			return false
+		}
+		return false
+	}
+	return true
 }
 
 func HashPassword(password string) (string, error) {
@@ -79,121 +87,128 @@ func GetAccountByEmail(email string, withDefer bool) structure.Account {
 }
 
 func GetAllUsers() ([]structure.Account, error) {
-    db := GetDatabase()
+	db := GetDatabase()
 
-    rows, err := db.Query("SELECT ID, Username, Email, Balance, CreationDate FROM users")
-    if err != nil {
-        return nil, err
-    }
-    defer rows.Close()
+	rows, err := db.Query("SELECT ID, Username, Email, Balance, CreationDate FROM users")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-    var users []structure.Account
-    for rows.Next() {
-        var user structure.Account
-        err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Balance, &user.CreationDate)
-        if err != nil {
-            return nil, err
-        }
-        users = append(users, user)
-    }
-    return users, nil
+	var users []structure.Account
+	for rows.Next() {
+		var user structure.Account
+		err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Balance, &user.CreationDate)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+	return users, nil
 }
 
 func DeleteUser(id string) error {
-    db := GetDatabase()
-    tx, err := db.Begin()
-    if err != nil {
-        return err
-    }
-    defer tx.Rollback()
-    
-    _, err = tx.Exec("DELETE FROM account_uuid WHERE ID_USER = ?", id)
-    if err != nil {
-        return err
-    }
-    _, err = tx.Exec("DELETE FROM users WHERE ID = ?", id)
-    if err != nil {
-        return err
-    }
-    if err = tx.Commit(); err != nil {
-        return err
-    }
-    return nil
+	db := GetDatabase()
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec("DELETE FROM account_uuid WHERE ID_USER = ?", id)
+	if err != nil {
+		return err
+	}
+	_, err = tx.Exec("DELETE FROM users WHERE ID = ?", id)
+	if err != nil {
+		return err
+	}
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+	return nil
 }
 func GetUserIDByUsername(username string) (int64, error) {
-    db := GetDatabase() // Supposons que vous ayez une fonction GetDatabase() qui retourne une connexion à la base de données
+	db := GetDatabase() // Supposons que vous ayez une fonction GetDatabase() qui retourne une connexion à la base de données
 
-    var userID int64
-    err := db.QueryRow("SELECT ID FROM USERS WHERE Username = ?", username).Scan(&userID)
-    if err != nil {
-        if err == sql.ErrNoRows {
-            return 0, fmt.Errorf("utilisateur avec le nom d'utilisateur %s non trouvé", username)
-        }
-        return 0, err
-    }
+	var userID int64
+	err := db.QueryRow("SELECT ID FROM USERS WHERE Username = ?", username).Scan(&userID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return 0, fmt.Errorf("utilisateur avec le nom d'utilisateur %s non trouvé", username)
+		}
+		return 0, err
+	}
 
-    return userID, nil
+	return userID, nil
 }
 
 func GetUserByUUID(uuid string) (structure.Account, error) {
-    db := GetDatabase()
-    
-    var account structure.Account
-    err := db.QueryRow("SELECT USERS.ID, USERS.Username, USERS.Email, USERS.Balance, USERS.CreationDate FROM USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER WHERE ACCOUNT_UUID.UUID = ?", uuid).Scan(&account.Id, &account.Username, &account.Email, &account.Balance, &account.CreationDate)
-    if err != nil {
-        return structure.Account{}, err
-    }
-    return account, nil
+	db := GetDatabase()
+
+	var account structure.Account
+	err := db.QueryRow("SELECT USERS.ID, USERS.Username, USERS.Email, USERS.Balance, USERS.CreationDate FROM USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER WHERE ACCOUNT_UUID.UUID = ?", uuid).Scan(&account.Id, &account.Username, &account.Email, &account.Balance, &account.CreationDate)
+	if err != nil {
+		return structure.Account{}, err
+	}
+	return account, nil
 }
 
 func UpdateUsername(uuid, username string) error {
-    db := GetDatabase()
-    
-    _, err := db.Exec("UPDATE USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER SET USERS.Username = ? WHERE ACCOUNT_UUID.UUID = ?", username, uuid)
-    if err != nil {
-        return err
-    }
-    return nil
+	db := GetDatabase()
+
+	_, err := db.Exec("UPDATE USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER SET USERS.Username = ? WHERE ACCOUNT_UUID.UUID = ?", username, uuid)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func UpdateEmail(uuid, email string) error {
-    db := GetDatabase()
-    
-    _, err := db.Exec("UPDATE USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER SET USERS.Email = ? WHERE ACCOUNT_UUID.UUID = ?", email, uuid)
-    if err != nil {
-        return err
-    }
-    return nil
+	db := GetDatabase()
+
+	_, err := db.Exec("UPDATE USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER SET USERS.Email = ? WHERE ACCOUNT_UUID.UUID = ?", email, uuid)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func ChangePassword(uuid, password string) error {
-    db := GetDatabase()
-    
-    hashedPassword, err := HashPassword(password)
-    if err != nil {
-        return err
-    }
-    
-    _, err = db.Exec("UPDATE USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER SET USERS.Password = ? WHERE ACCOUNT_UUID.UUID = ?", hashedPassword, uuid)
-    if err != nil {
-        return err
-    }
-    return nil
+	db := GetDatabase()
+
+	hashedPassword, err := HashPassword(password)
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec("UPDATE USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER SET USERS.Password = ? WHERE ACCOUNT_UUID.UUID = ?", hashedPassword, uuid)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func CheckPasswordByUUID(uuid, password string) bool {
-    db := GetDatabase()
-    
-    var storedPassword string
-    err := db.QueryRow("SELECT USERS.Password FROM USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER WHERE ACCOUNT_UUID.UUID = ?", uuid).Scan(&storedPassword)
-    if err != nil {
-        return false
-    }
-    err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
-    if err != nil {
-        return false
-    }
-    return true
-    
-    
+	db := GetDatabase()
+
+	var storedPassword string
+	err := db.QueryRow("SELECT USERS.Password FROM USERS JOIN ACCOUNT_UUID ON USERS.ID = ACCOUNT_UUID.ID_USER WHERE ACCOUNT_UUID.UUID = ?", uuid).Scan(&storedPassword)
+	if err != nil {
+		return false
+	}
+	if err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)); err != nil {
+		return false
+	}
+	return true
+}
+
+func UpdateProfilPicture(uuid, picture string) error {
+	db := GetDatabase()
+
+	_, err := db.Exec("UPDATE PROFIL_PICTURE JOIN ACCOUNT_UUID ON PROFIL_PICTURE.ID = ACCOUNT_UUID.ID_USER SET  PROFIL_PICTURE.PICTURE = ? WHERE ACCOUNT_UUID.UUID = ?", picture, uuid)
+	if err != nil {
+		return err
+	}
+	return nil
 }

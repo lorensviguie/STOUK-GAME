@@ -18,10 +18,8 @@ func ServeurInit() {
 	http.HandleFunc("/panel-admin", AdminHandler)
 	http.HandleFunc("/compte", AccountHandler)
 	http.HandleFunc("/play", Playgame)
-	http.HandleFunc("/update-username", UpdateUsername)
-	http.HandleFunc("/update-email", UpdateEmail)
-	http.HandleFunc("/update-password", ChangePassword)
-	http.HandleFunc("/boutiquew", StoreHandler)
+	http.HandleFunc("/update-compte", UpdateAccount)
+	http.HandleFunc("/update-profil-picture", UpdateProfilPicture)
 	
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {

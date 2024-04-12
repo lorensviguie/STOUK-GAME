@@ -4,8 +4,9 @@ import (
 	"data"
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
-
+	"os"
 )
 
 func AccountHandler(w http.ResponseWriter, r *http.Request) {
@@ -28,14 +29,14 @@ func AccountHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		tmpl.Execute(w, user)
-		
+
 	} else {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 }
 
-func UpdateUsername(w http.ResponseWriter, r *http.Request) {
+func UpdateAccount(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("uuid")
 	if err != nil {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -43,49 +44,84 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 	}
 	if data.CheckAccountUUID(cookie.Value) {
 		username := r.FormValue("username")
+		if username == "" {
+			http.Redirect(w, r, "/compte", http.StatusSeeOther)
+			return
+		}
 		data.UpdateUsername(cookie.Value, username)
 		http.Redirect(w, r, "/compte", http.StatusSeeOther)
 	} else {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
-}
 
-func UpdateEmail(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("uuid")
-	if err != nil {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-		return
-	}
 	if data.CheckAccountUUID(cookie.Value) {
 		email := r.FormValue("email")
+		if email == "" {
+			http.Redirect(w, r, "/compte", http.StatusSeeOther)
+			return
+		}
 		data.UpdateEmail(cookie.Value, email)
 		http.Redirect(w, r, "/compte", http.StatusSeeOther)
 	} else {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
-}
 
-func ChangePassword(w http.ResponseWriter, r *http.Request) {
-    cookie, err := r.Cookie("uuid")
-    if err != nil {
-        http.Redirect(w, r, "/", http.StatusSeeOther)
-        return
-    }
-    if data.CheckAccountUUID(cookie.Value) {
-        oldPassword := r.FormValue("password")
-        
-        if !data.CheckPasswordByUUID(cookie.Value, oldPassword) {
-            http.Redirect(w, r, "/compte", http.StatusSeeOther)
-            return
-        } else {
-        newPassword := r.FormValue("newpassword")
-        data.ChangePassword(cookie.Value, newPassword)
-        http.Redirect(w, r, "/compte", http.StatusSeeOther)
-        }
-    } else {
-        http.Redirect(w, r, "/", http.StatusSeeOther)
-        return
-    }
+	if data.CheckAccountUUID(cookie.Value) {
+		oldPassword := r.FormValue("password")
+
+		if !data.CheckPasswordByUUID(cookie.Value, oldPassword) {
+			http.Redirect(w, r, "/compte", http.StatusSeeOther)
+			return
+		} else {
+			newPassword := r.FormValue("newpassword")
+			if newPassword == "" {
+				http.Redirect(w, r, "/compte", http.StatusSeeOther)
+				return
+			}
+			data.ChangePassword(cookie.Value, newPassword)
+			http.Redirect(w, r, "/compte", http.StatusSeeOther)
+		}
+	} else {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+}
+func UpdateProfilPicture(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("uuid")
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	if data.CheckAccountUUID(cookie.Value) {
+		r.ParseMultipartForm(10 << 20)
+		fmt.Println("Oui")
+		file, handler, err := r.FormFile("profil-picture")
+		if err != nil {
+			fmt.Println("Error Retrieving the File")
+			fmt.Println(err)
+			return
+		}
+		defer file.Close()
+		filePath := "./static/images/profilpicture/" + handler.Filename
+		f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
+		if err != nil {
+			fmt.Println("Error Saving the File")
+			fmt.Println(err)
+			return
+		}
+		defer f.Close()
+		io.Copy(f, file)
+		err = data.UpdateProfilPicture(cookie.Value, filePath)
+		if err != nil {
+			fmt.Println("Error Updating Profile Picture in Database")
+			fmt.Println(err)
+			return
+		}
+		http.Redirect(w, r, "/compte", http.StatusSeeOther)
+	} else {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
 }
