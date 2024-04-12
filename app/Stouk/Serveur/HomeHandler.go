@@ -2,6 +2,7 @@ package serveur
 
 import (
 	"data"
+	"dice"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -36,6 +37,10 @@ func SearchGame(w http.ResponseWriter, r *http.Request) {
 	queue.Add_User_To_Queue(idUser)
 	player_Res := queue.CheckTagForUser(idUser)
 	player_Res.PlayerName = playerName
+	player_Res.Player_data = data.GetAllPlayerDataForGame(playerName)
+	var frontData structure.FrontPage
+	frontData.Game = player_Res
+	frontData.DicePath = dice.BuildDicePathForGame(player_Res)
 	tmplFile := "./templates/result.html"
 	tmpl, err := template.ParseFiles(tmplFile)
 	if err != nil {
@@ -44,7 +49,7 @@ func SearchGame(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = tmpl.Execute(w, player_Res)
+	err = tmpl.Execute(w, frontData)
 	if err != nil {
 		fmt.Println("Erreur lors de l'exécution du modèle HTML :", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

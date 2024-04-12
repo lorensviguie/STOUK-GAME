@@ -8,30 +8,39 @@
 <body>
     <h1>Résultat du jeu</h1>
     <h2>Résultat du jeu</h2>
-    <p>Nombre de victoires du joueur 1 : {{.Game_res.Player1_Win}}</p>
-    <p>Nombre de victoires du joueur 2 : {{.Game_res.Player2_Win}}</p>
-    <h2>Dés</h2>
+    <p>Nombre de victoires du joueur 1 : {{.Game.Game_res.Player1_Win}}</p>
+    <p>Nombre de victoires du joueur 2 : {{.Game.Game_res.Player2_Win}}</p>
+    <h2>Vos Dés</h2>
     <ul>
-        <li>Dé 1 : {{.Dice_type.Dice1}}</li>
-        <li>Dé 2 : {{.Dice_type.Dice2}}</li>
-        <li>Dé 3 : {{.Dice_type.Dice3}}</li>
-        <li>Dé 4 : {{.Dice_type.Dice4}}</li>
-        <li>Dé 5 : {{.Dice_type.Dice5}}</li>
+        <li>Dé 1 : {{.Game.Dice_type.Dice1}} : {{.DicePath.Pathdice1}}</li>
+        <li>Dé 2 : {{.Game.Dice_type.Dice2}} : {{.DicePath.Pathdice2}}</li>
+        <li>Dé 3 : {{.Game.Dice_type.Dice3}} : {{.DicePath.Pathdice3}}</li>
+        <li>Dé 4 : {{.Game.Dice_type.Dice4}} : {{.DicePath.Pathdice4}}</li>
+        <li>Dé 5 : {{.Game.Dice_type.Dice5}} : {{.DicePath.Pathdice5}}</li>
+    </ul>
+    <h2>les Dés adverse</h2>
+    <ul>
+        <li>Dé 1 : {{.Game.Opponent_Dice.Dice1}} : {{.DicePath.Pathdice6}}</li>
+        <li>Dé 2 : {{.Game.Opponent_Dice.Dice2}} : {{.DicePath.Pathdice7}}</li>
+        <li>Dé 3 : {{.Game.Opponent_Dice.Dice3}} : {{.DicePath.Pathdice8}}</li>
+        <li>Dé 4 : {{.Game.Opponent_Dice.Dice4}} : {{.DicePath.Pathdice9}}</li>
+        <li>Dé 5 : {{.Game.Opponent_Dice.Dice5}} : {{.DicePath.Pathdice10}}</li>
     </ul>
     <h2>Données du joueur</h2>
-    <p>Nom du joueur : {{.PlayerName}}</p>
-    <p>Rank du joueur : {{.Player_data.Rank}}</p>
-    <p>Nombre de victoire du joueur : {{.Player_data.Win}}</p>
-    <p>Nombre de Defaite du joueur : {{.Player_data.Lose}}</p>
+    <p>Nom du joueur : {{.Game.PlayerName}}</p>
+    <p>Nom de l'adversaire : {{.Game.OpponentName}}</p>
+    <p>Rank du joueur : {{.Game.Player_data.Rank}}</p>
+    <p>Nombre de victoire du joueur : {{.Game.Player_data.Win}}</p>
+    <p>Nombre de Defaite du joueur : {{.Game.Player_data.Lose}}</p>
     <h2>Votre lancer de dés</h2>
     <ul>
-        {{range .Your_Game_roll}}
+        {{range .Game.Your_Game_roll}}
         <li>{{.}}</li>
         {{end}}
     </ul>
     <h2>Lancer de dés de l'ennemi</h2>
     <ul>
-        {{range .Enemy_Game_roll}}
+        {{range .Game.Enemy_Game_roll}}
         <li>{{.}}</li>
         {{end}}
     </ul>
