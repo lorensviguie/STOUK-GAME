@@ -45,6 +45,13 @@ func AddUser(username, password, email string) error {
 		return err
 	}
 
+    // Insert user entry into PROFIL_PICTURE table with default values
+    _, err = tx.Exec("INSERT INTO PROFIL_PICTURE (ID_USER, PICTURE) VALUES (?, ?)", userID, "./static/images/profilpicture/nopp.png")
+    if err != nil {
+        fmt.Println("Error inserting user into PROFIL_PICTURE:", err)
+        return err
+    }
+
 	if err = tx.Commit(); err != nil {
 		fmt.Println("Error committing transaction:", err)
 		return err
@@ -185,6 +192,10 @@ func GetUserByUUID(uuid string) (structure.Account, error) {
 	if err != nil {
 		return structure.Account{}, err
 	}
+    err = db.QueryRow("SELECT PICTURE FROM PROFIL_PICTURE WHERE ID_USER = ?", account.Id).Scan(&account.ProfilPicture)
+    if err != nil {
+        return structure.Account{}, err
+    }
 	return account, nil
 }
 
@@ -239,9 +250,10 @@ func CheckPasswordByUUID(uuid, password string) bool {
 
 func UpdateProfilPicture(uuid, picture string) error {
 	db := GetDatabase()
-
-	_, err := db.Exec("UPDATE PROFIL_PICTURE JOIN ACCOUNT_UUID ON PROFIL_PICTURE.ID = ACCOUNT_UUID.ID_USER SET  PROFIL_PICTURE.PICTURE = ? WHERE ACCOUNT_UUID.UUID = ?", picture, uuid)
+    print(picture)
+	_, err := db.Exec("UPDATE PROFIL_PICTURE JOIN ACCOUNT_UUID ON PROFIL_PICTURE.ID_USER = ACCOUNT_UUID.ID_USER SET PROFIL_PICTURE.PICTURE = ? WHERE ACCOUNT_UUID.UUID = ?", picture, uuid)
 	if err != nil {
+        print(err)
 		return err
 	}
 	return nil

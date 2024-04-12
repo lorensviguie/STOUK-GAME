@@ -40,6 +40,7 @@
                 <li class="text-orange-200 m-1">
                     Date de Création : {{ .CreationDate }}
                 </li>
+                <img src="{{ .ProfilPicture }}" alt="Profil Picture" class="m-1 w-10 h-10">
                 <form action="/update-profil-picture" method="post" enctype="multipart/form-data" class="m-1">
                     <input type="file" id="profil-picture" name="profil-picture" accept="image/*"><br>
                     <input type="submit" value="Enregistrer">

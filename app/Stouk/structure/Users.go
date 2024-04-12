@@ -7,7 +7,7 @@ type Account struct {
 	Email         string
 	Password      string
 	Balance	 	  int
-	Image		  string
+	ProfilPicture string
 	CreationDate  string
 }
 

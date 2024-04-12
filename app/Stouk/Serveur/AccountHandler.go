@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func AccountHandler(w http.ResponseWriter, r *http.Request) {
@@ -88,6 +89,7 @@ func UpdateAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
 func UpdateProfilPicture(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("uuid")
 	if err != nil {
@@ -104,7 +106,7 @@ func UpdateProfilPicture(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer file.Close()
-		filePath := "./static/images/profilpicture/" + handler.Filename
+		filePath := "./static/images/profilpicture/" + strings.Split(handler.Filename, ".")[0] + "_" + cookie.Value + ".png"
 		f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
 		if err != nil {
 			fmt.Println("Error Saving the File")
