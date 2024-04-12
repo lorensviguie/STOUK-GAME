@@ -55,10 +55,14 @@ func CheckTagForUser(id int) structure.Game_Result {
 		for i, game := range *structure.FindResult {
 			if game.Player1res.Player_data.ID == id {
 				temp := game.Player1res
+				temp.OpponentName = game.Player2U
+				temp.Opponent_Dice = game.Player2res.Dice_type
 				checkIFalreadyclaim(game, i)
 				return temp
 			} else if game.Player2res.Player_data.ID == id {
 				temp := game.Player2res
+				temp.OpponentName = game.Player1U
+				temp.Opponent_Dice = game.Player1res.Dice_type
 				checkIFalreadyclaim(game, i)
 				return temp
 			}

@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -211,8 +211,6 @@ textarea {
   /* 1 */
   line-height: inherit;
   /* 1 */
-  letter-spacing: inherit;
-  /* 1 */
   color: inherit;
   /* 1 */
   margin: 0;
@@ -236,9 +234,9 @@ select {
 */
 
 button,
-input:where([type='button']),
-input:where([type='reset']),
-input:where([type='submit']) {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
@@ -494,10 +492,6 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
-  --tw-contain-size:  ;
-  --tw-contain-layout:  ;
-  --tw-contain-paint:  ;
-  --tw-contain-style:  ;
 }
 
 ::backdrop {
@@ -548,10 +542,6 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
-  --tw-contain-size:  ;
-  --tw-contain-layout:  ;
-  --tw-contain-paint:  ;
-  --tw-contain-style:  ;
 }
 
 .fixed {
@@ -582,10 +572,6 @@ video {
   z-index: 50;
 }
 
-.z-10 {
-  z-index: 10;
-}
-
 .m-1 {
   margin: 0.25rem;
 }
@@ -610,24 +596,20 @@ video {
   margin-right: 5rem;
 }
 
-.mt-4 {
-  margin-top: 1rem;
+.mt-1 {
+  margin-top: 0.25rem;
 }
 
-.mt-8 {
-  margin-top: 2rem;
+.mt-4 {
+  margin-top: 1rem;
 }
 
 .mt-60 {
   margin-top: 15rem;
 }
 
-.ml-1 {
-  margin-left: 0.25rem;
-}
-
-.mt-1 {
-  margin-top: 0.25rem;
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .block {
@@ -650,16 +632,16 @@ video {
   height: 9rem;
 }
 
+.h-80 {
+  height: 20rem;
+}
+
 .h-full {
   height: 100%;
 }
 
 .h-screen {
   height: 100vh;
-}
-
-.h-80 {
-  height: 20rem;
 }
 
 .w-12 {
@@ -815,12 +797,12 @@ video {
   padding-left: 0.5rem;
 }
 
-.pr-2 {
-  padding-right: 0.5rem;
-}
-
 .pr-1 {
   padding-right: 0.25rem;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
 }
 
 .text-center {
