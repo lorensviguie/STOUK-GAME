@@ -20,7 +20,7 @@ var DB *sql.DB
 
 func InitDatabase() bool {
 	var err error
-	DB, err = sql.Open("mysql", "root:STOUK@tcp(localhost:3306)/Stouk-GAME")
+	DB, err = sql.Open("mysql", "root:STOUK@tcp(STOUK-GAME:3306)/Stouk-GAME")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -96,7 +96,8 @@ func CreateDB() {
 		CREATE TABLE IF NOT EXISTS DICE (
 		ID INT AUTO_INCREMENT PRIMARY KEY,
 		Name TEXT NOT NULL,
-		Price INT NOT NULL
+		Price INT NOT NULL,
+		Path TEXT NOT NULL
 		);
 	`)
 	if err != nil {
@@ -146,11 +147,24 @@ func CreateDB() {
 	}
 	fmt.Println("Table PROFIL_PICTURE created successfully")
 
-	Add_Dice("BaseDice", 10)
-	Add_Dice("NormalDice", 10)
-	Add_Dice("ParaboleDice", 10)
-	Add_Dice("PowerDice", 10)
-	Add_Dice("ScaleDice", 10)
-	Add_Dice("UnscaleDice", 10)
-	Add_Dice("RankDice", 10)
+	_, err = DB.Exec(`
+		CREATE TABLE IF NOT EXISTS PROFIL_PICTURE (
+		ID INT AUTO_INCREMENT PRIMARY KEY,
+		ID_USER INT NOT NULL,
+		PICTURE TEXT NOT NULL,
+		FOREIGN KEY (ID_USER) REFERENCES USERS(ID)
+	);
+	`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Table PROFIL_PICTURE created successfully")
+
+	Add_Dice("BaseDice", 10, "./static/images/de1.svg")
+	Add_Dice("NormalDice", 10, "./static/images/de2.svg")
+	Add_Dice("ParaboleDice", 10, "./static/images/de3.svg")
+	Add_Dice("PowerDice", 10, "./static/images/de4.svg")
+	Add_Dice("ScaleDice", 10, "./static/images/de5.svg")
+	Add_Dice("UnscaleDice", 10, "./static/images/de6.svg")
+	Add_Dice("RankDice", 10, "./static/images/de7.svg")
 }

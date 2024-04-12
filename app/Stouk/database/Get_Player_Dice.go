@@ -32,7 +32,7 @@ func UpdatePlayerDice(username string, diceName string, rank int) error {
 		} else {
 			return err
 		}
-	} else { // L'utilisateur possède déjà le dé, nous devons mettre à jour le rang
+	} else {
 		_, err := DB.Exec("UPDATE USER_DICE SET Rank = ? WHERE ID_USER = ? AND ID_DICE = ?", rank, userID, diceID)
 		if err != nil {
 			return err
@@ -45,7 +45,7 @@ func UpdatePlayerDice(username string, diceName string, rank int) error {
 
 func GetUserDice(userID int) ([]structure.Dice, error) {
 	var db = GetDatabase()
-	var playerDice []structure.Dice // Déclarez une slice pour stocker les dés du joueur
+	var playerDice []structure.Dice
 
 	rows, err := db.Query("SELECT ID_DICE, Rank FROM USER_DICE WHERE ID_USER = ?", userID)
 	if err != nil {
@@ -59,7 +59,7 @@ func GetUserDice(userID int) ([]structure.Dice, error) {
 		if err != nil {
 			return nil, err
 		}
-		playerDice = append(playerDice, dice) // Ajoutez le dé à la liste des dés du joueur
+		playerDice = append(playerDice, dice)
 	}
 
 	if err := rows.Err(); err != nil {
@@ -69,7 +69,6 @@ func GetUserDice(userID int) ([]structure.Dice, error) {
 	return playerDice, nil
 }
 
-// GetDiceByID récupère les détails d'un dé par son ID
 func GetDiceByID(db *sql.DB, diceID int) (structure.Dice, error) {
 	var dice structure.Dice
 	err := db.QueryRow("SELECT Name, Price FROM DICE WHERE ID = ?", diceID).Scan(&dice.Dice, &dice.Rank)
