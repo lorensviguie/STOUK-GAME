@@ -4,23 +4,36 @@
     <link href="/static/styles/output.css" rel="stylesheet">
     <title>Register Page</title>
 </head>
-<body>
-    <h1>Register</h1>
-    
-    <form method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <label for="password">Confirm Password:</label>
-        <input type="password" id="password" name="confirmpassword" required><br><br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <input type="submit" value="Register">
-    </form>
-</body>
-</html>
+<style>
+    body {
+        background-image: url("./static/images/tapis.jpg");
+        background-size: cover;
+    }
+</style>
+<body class="overflow-hidden">
+    <div class="flex justify-center items-center h-screen scale-150">
+        <div class="block max-w p-6 bg-orange-950 border border-b-orange-200 rounded-lg shadow dark:bg-orange-950">
+            <h2 class="text-center text-orange-200">Enregistrement</h2>
+            <form action="/register" method="post">
+                <div class="m-2 flex justify-end">
+                    <label for="username" class="text-orange-200 flex-1">Nom d'utilisateur :</label>
+                    <input type="text" id="username" name="username" required class="text-orange-200 bg-orange-950 border border-orange-200 rounded ml-2 focus:outline-none focus:ring-1 focus:ring-orange-200 pl-1">
+                </div>
+                <div class="m-2 flex justify-end">
+                    <label for="email" class="text-orange-200 flex-1">Email :</label>
+                    <input type="email" id="email" name="email" required class="text-orange-200 bg-orange-950 border border-orange-200 rounded ml-2 focus:outline-none focus:ring-1 focus:ring-orange-200 pl-1">
+                </div>
+                <div class="m-2 flex justify-end">
+                    <label for="password" class="text-orange-200 flex-1">Mot de passe :</label>
+                    <input type="password" id="password" name="password" required class="text-orange-200 bg-orange-950 border border-orange-200 rounded ml-2 focus:outline-none focus:ring-1 focus:ring-orange-200 pl-1">
+                </div>
+                <div class="m-2 flex justify-end">
+                    <label for="password" class="text-orange-200 flex-1">Vérification de Mot de passe :</label>
+                    <input type="password" id="password" name="confirmpassword" class="text-orange-200 bg-orange-950 border border-orange-200 rounded ml-2 focus:outline-none focus:ring-1 focus:ring-orange-200 pl-1">
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <input type="submit" value="Enregistrement" class="bg-orange-950 text-orange-200 border border-orange-200 rounded p-1 pl-2 pr-2 hover:bg-red-800"></input>
+                </div>
+            </form>
+        </div>
+    </div>

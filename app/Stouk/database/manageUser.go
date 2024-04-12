@@ -23,23 +23,41 @@ func AddUser(username, password, email string) error {
 		return err
 	}
 
-	_, err = tx.Exec("INSERT INTO users (Username, Password, Email, Balance, IsAdmin) VALUES (?, ?, ?, ?, ?)", username, hashedPassword, email, 0, 0)
+	res, err := tx.Exec("INSERT INTO USERS (Username, Password, Email, Balance, IsAdmin) VALUES (?, ?, ?, ?, ?)", username, hashedPassword, email, 0, 0)
 	if err != nil {
 		return err
 	}
 
-	// userID, err := GetUserIDByUsername(username)
-	// if err != nil {
-	// 	return err
-	// }
+	// Obtenir l'ID de l'utilisateur inséré
+	userID, _ := res.LastInsertId()
 
-	// _, err = tx.Exec("INSERT INTO PROFIL_PICTURE (ID_USER, PICTURE) VALUES (?, ?)", userID, "./static/images/profilpicture/nopp.png")
-	// if err != nil {
-	// 	return err
-	// }
+	// Insert user entry into LADDER table with default values
+	_, err = tx.Exec("INSERT INTO LADDER (ID_USER, Rank, MMR) VALUES (?, ?, ?)", userID, 1000, 1000) // Adjust default Rank and MMR as needed
+	if err != nil {
+		fmt.Println("Error inserting user into LADDER:", err)
+		return err
+	}
 
+	// Insert user entry into RATIO table with default values
+	_, err = tx.Exec("INSERT INTO RATIO (ID_USER, Win, Lose, RANK_MOYEN) VALUES (?, ?, ?, ?)", userID, 0, 0, 1000) // Adjust default Win, Lose, and RANK_MOYEN as needed
+	if err != nil {
+		fmt.Println("Error inserting user into RATIO:", err)
+		return err
+	}
+
+	if err = tx.Commit(); err != nil {
+		fmt.Println("Error committing transaction:", err)
+		return err
+	}
 	fmt.Println(username)
 	logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
+	UpdatePlayerDice(username, "BaseDice", 3)
+	UpdatePlayerDice(username, "NormalDice", 3)
+	UpdatePlayerDice(username, "ParaboleDice", 3)
+	UpdatePlayerDice(username, "PowerDice", 3)
+	UpdatePlayerDice(username, "ScaleDice", 3)
+	UpdatePlayerDice(username, "UnscaleDice", 3)
+	UpdatePlayerDice(username, "RankDice", 3)
 	return nil
 }
 
@@ -47,7 +65,7 @@ func Login(email, password string) bool {
 	db := GetDatabase()
 
 	var storedPassword string
-	err := db.QueryRow("SELECT Password FROM users WHERE Email = ?", email).Scan(&storedPassword)
+	err := db.QueryRow("SELECT Password FROM USERS WHERE Email = ?", email).Scan(&storedPassword)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return false
@@ -76,7 +94,7 @@ func GetAccountByEmail(email string, withDefer bool) structure.Account {
 	db := GetDatabase()
 
 	var account structure.Account
-	err := db.QueryRow("SELECT ID, Username, Email FROM users WHERE Email = ?", email).Scan(&account.Id, &account.Username, &account.Email)
+	err := db.QueryRow("SELECT ID, Username, Email FROM USERS WHERE Email = ?", email).Scan(&account.Id, &account.Username, &account.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return structure.Account{}
@@ -115,11 +133,11 @@ func DeleteUser(id string) error {
 	}
 	defer tx.Rollback()
 
-	_, err = tx.Exec("DELETE FROM account_uuid WHERE ID_USER = ?", id)
+	_, err = tx.Exec("DELETE FROM ACCOUNT_UUID WHERE ID_USER = ?", id)
 	if err != nil {
 		return err
 	}
-	_, err = tx.Exec("DELETE FROM users WHERE ID = ?", id)
+	_, err = tx.Exec("DELETE FROM USERS WHERE ID = ?", id)
 	if err != nil {
 		return err
 	}
@@ -142,6 +160,22 @@ func GetUserIDByUsername(username string) (int64, error) {
 
 	return userID, nil
 }
+
+func GetUsernameByUserid(id int) string {
+	db := GetDatabase() // Supposons que vous ayez une fonction GetDatabase() qui retourne une connexion à la base de données
+
+	var userName string
+	err := db.QueryRow("SELECT Username FROM USERS WHERE ID = ?", id).Scan(&userName)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return ""
+		}
+		return ""
+	}
+
+	return userName
+}
+
 
 func GetUserByUUID(uuid string) (structure.Account, error) {
 	db := GetDatabase()
