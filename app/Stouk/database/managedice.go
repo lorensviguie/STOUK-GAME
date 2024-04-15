@@ -44,37 +44,74 @@ func UpdatePlayerDice(username string, diceName string, rank int) error {
 }
 
 func GetUserDice(userID int) ([]structure.Dice, error) {
-	var db = GetDatabase()
-	var playerDice []structure.Dice // Déclarez une slice pour stocker les dés du joueur
+    var db = GetDatabase()
+    var playerDice []structure.Dice 
 
-	rows, err := db.Query("SELECT ID_DICE, Rank FROM USER_DICE WHERE ID_USER = ?", userID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
+    rows, err := db.Query("SELECT ID_DICE, Rank FROM USER_DICE WHERE ID_USER = ?", userID)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
 
-	for rows.Next() {
-		var dice structure.Dice
-		err := rows.Scan(&dice.Dice, &dice.Rank)
-		if err != nil {
-			return nil, err
+    for rows.Next() {
+        var dice structure.Dice
+        err := rows.Scan(&dice.Dice, &dice.Rank)
+        if err != nil {
+            return nil, err
+        }
+
+		if dice.Rank == 10 {
+			dice.Price = 0
+			playerDice = append(playerDice, dice)
+			continue	
 		}
-		playerDice = append(playerDice, dice) // Ajoutez le dé à la liste des dés du joueur
-	}
 
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
+        priceRow := db.QueryRow("SELECT PRICE FROM PRICE WHERE ID = ?", dice.Rank)
+        err = priceRow.Scan(&dice.Price)
+        if err != nil {
+            return nil, err
+        }
 
-	return playerDice, nil
+        playerDice = append(playerDice, dice)
+    }
+
+    if err := rows.Err(); err != nil {
+        return nil, err
+    }
+
+    return playerDice, nil
 }
 
 // GetDiceByID récupère les détails d'un dé par son ID
-func GetDiceByID(db *sql.DB, diceID int) (structure.Dice, error) {
+func GetDiceByID(diceID int) (structure.Dice, error) {
+	db := GetDatabase()
 	var dice structure.Dice
 	err := db.QueryRow("SELECT Name, Price FROM DICE WHERE ID = ?", diceID).Scan(&dice.Dice, &dice.Rank)
 	if err != nil {
 		return structure.Dice{}, err
 	}
 	return dice, nil
+}
+
+func UpdateRank(userID int, diceID string, price int) error {
+	var db = GetDatabase()
+	_, err := db.Exec("UPDATE USER_DICE SET Rank = Rank + 1 WHERE ID_USER = ? AND ID_DICE = ?", userID, diceID)
+	if err != nil {
+		return err
+	}
+    _, err = db.Exec("UPDATE USERS SET Balance = Balance - ? WHERE ID = ?", price, userID)
+    if err != nil {
+        return err
+    }
+	return nil
+}
+
+func GetPriceByRank(rank int) int {
+	db := GetDatabase()
+	var price int
+	err := db.QueryRow("SELECT PRICE FROM DICE WHERE ID = ?", rank).Scan(&price)
+	if err != nil {
+		return 0
+	}
+	return price
 }

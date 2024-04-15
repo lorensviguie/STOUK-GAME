@@ -146,6 +146,18 @@ func CreateDB() {
 	}
 	fmt.Println("Table PROFIL_PICTURE created successfully")
 
+	_, err = DB.Exec(`
+		CREATE TABLE IF NOT EXISTS PRICE (
+		ID INT AUTO_INCREMENT PRIMARY KEY,
+		PRICE INT NOT NULL
+	);
+	`)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Table PRICE created successfully")
+
 	Add_Dice("BaseDice", 10)
 	Add_Dice("NormalDice", 10)
 	Add_Dice("ParaboleDice", 10)
@@ -153,4 +165,14 @@ func CreateDB() {
 	Add_Dice("ScaleDice", 10)
 	Add_Dice("UnscaleDice", 10)
 	Add_Dice("RankDice", 10)
+
+	Add_Price(100)
+	Add_Price(200)
+	Add_Price(320)
+	Add_Price(450)
+	Add_Price(650)
+	Add_Price(1000)
+	Add_Price(1800)
+	Add_Price(3700)
+	Add_Price(6000)
 }

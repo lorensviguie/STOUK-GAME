@@ -3,12 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STOUK</title>
+    <link href="/static/styles/output.css" rel="stylesheet">
+    <title>STOUK</title>    
+    <style>
+        body {
+            background-image: url("../static/images/tapis.jpg");
+            background-size: cover;
+        }
+    </style>
 </head>
-<body>
+<body class="overflow-hidden">
+
     {{ template "header.html" .}}
-
-    <p>Solde :{{ .Balance }} </p>
-
+    <ul>
+        {{ range .User }}
+        <li>
+            {{ .Balance }}
+        </li>
+        {{ end }}
+    </ul>
+    <ul>
+        {{ range .Dices }}
+        <li>
+            Number: {{ .Dice }}
+            Value: {{ .Rank }}
+            Price : {{ .Price }}
+            {{ if ge .Rank 10 }}
+                Level maximum
+            {{ else }}
+                <form action="/rankup" method="POST">
+                    <input type="hidden" name="diceNumber" value="{{ .Dice }}">
+                    <button type="submit">Level Up</button>
+                </form>
+            {{ end }}
+        </li>
+        {{ end }}
+    </ul>
 </body>
 </html>
