@@ -19,7 +19,7 @@ func ServeurInit() {
 	http.HandleFunc("/compte", AccountHandler)
 	http.HandleFunc("/play", Playgame)
 	http.HandleFunc("/Queue", SearchGame)
-	http.HandleFunc("/boutiquew", StoreHandler)
+	http.HandleFunc("/boutique", StoreHandler)
 	http.HandleFunc("/update-compte", UpdateAccount)
 	http.HandleFunc("/update-profil-picture", UpdateProfilPicture)
 	

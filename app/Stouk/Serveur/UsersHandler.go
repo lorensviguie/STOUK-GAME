@@ -89,8 +89,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(bool)
 
 		if password == confirmpassword {
-			err = data.AddUser(username, password, email)
-
+			data.AddUser(username, password, email)
 			cookie := http.Cookie{
 				Name:     "uuid",
 				Value:    data.SetAccountUUID(email),
