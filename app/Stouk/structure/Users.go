@@ -15,3 +15,8 @@ type Account struct {
 type AdminData struct {
 	Users []Account
 }
+
+type StoreData struct {
+	Dices []Dice
+	User []Account
+}

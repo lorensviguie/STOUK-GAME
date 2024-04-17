@@ -60,3 +60,22 @@ func GetDicePathWithID(id int) (string,error) {
 
 	return dicePath, nil
 }
+
+
+func Add_Price(price int) error {
+	db := GetDatabase()
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM PRICE WHERE Price = ?", price).Scan(&count)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return err
+	}
+	_ , err = db.Exec("INSERT INTO PRICE (Price) VALUES (?)", price)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

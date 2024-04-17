@@ -250,7 +250,6 @@ func CheckPasswordByUUID(uuid, password string) bool {
 
 func UpdateProfilPicture(uuid, picture string) error {
 	db := GetDatabase()
-    print(picture)
 	_, err := db.Exec("UPDATE PROFIL_PICTURE JOIN ACCOUNT_UUID ON PROFIL_PICTURE.ID_USER = ACCOUNT_UUID.ID_USER SET PROFIL_PICTURE.PICTURE = ? WHERE ACCOUNT_UUID.UUID = ?", picture, uuid)
 	if err != nil {
         print(err)

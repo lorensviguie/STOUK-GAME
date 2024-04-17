@@ -22,6 +22,7 @@ func ServeurInit() {
 	http.HandleFunc("/boutique", StoreHandler)
 	http.HandleFunc("/update-compte", UpdateAccount)
 	http.HandleFunc("/update-profil-picture", UpdateProfilPicture)
+	http.HandleFunc("/rankup", RankUp)
 	
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
