@@ -179,13 +179,6 @@ func CreateDB() {
 	Add_Dice("ScaleDice", 10, "./static/images/de5.svg")
 	Add_Dice("UnscaleDice", 10, "./static/images/de6.svg")
 	Add_Dice("RankDice", 10, "./static/images/de7.svg")
-	Add_Dice("BaseDice", 10)
-	Add_Dice("NormalDice", 10)
-	Add_Dice("ParaboleDice", 10)
-	Add_Dice("PowerDice", 10)
-	Add_Dice("ScaleDice", 10)
-	Add_Dice("UnscaleDice", 10)
-	Add_Dice("RankDice", 10)
 
 	Add_Price(100)
 	Add_Price(200)
