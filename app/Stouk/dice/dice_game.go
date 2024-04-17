@@ -3,6 +3,7 @@ package dice
 import (
 	"data"
 	"fmt"
+	"logs"
 	"structure"
 )
 
@@ -48,8 +49,12 @@ func Dice_Game(Player1, Player2 structure.PlayerData) (structure.Game_Result, st
 	fmt.Println(result)
 	Player1_Res.Game_res = result
 	Player2_Res.Game_res = result
+	logs.LogToFile("dice", fmt.Sprintf("Match Versus %s/rank:%s Win = %s and %s/rank:%s Win = %s",Player1_Res.PlayerName, Player1_Res.Player_data.Rank, Player1_Res.Game_res.Player1_Win,Player2_Res.PlayerName, Player2_Res.Player_data.Rank, Player2_Res.Game_res.Player2_Win))
+
 	return Player1_Res, Player2_Res
 }
+
+
 
 func Merge5combatDice(MD []structure.Dice) structure.DiceGame {
 	var res structure.DiceGame

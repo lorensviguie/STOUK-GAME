@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"structure"
+	"logs"
 )
 
 func UpdatePlayerDice(username string, diceName string, rank int) error {
@@ -39,47 +40,47 @@ func UpdatePlayerDice(username string, diceName string, rank int) error {
 		}
 		fmt.Printf("Rang du dé mis à jour pour l'utilisateur %s: %d\n", username, rank)
 	}
-
+	logs.LogToFile("database",fmt.Sprintf("Rang du dé mis à jour pour l'utilisateur %s: %d\n", username, rank))
 	return nil
 }
 
 func GetUserDice(userID int) ([]structure.Dice, error) {
-    var db = GetDatabase()
-    var playerDice []structure.Dice 
+	var db = GetDatabase()
+	var playerDice []structure.Dice
 
-    rows, err := db.Query("SELECT ID_DICE, Rank FROM USER_DICE WHERE ID_USER = ?", userID)
-    if err != nil {
-        return nil, err
-    }
-    defer rows.Close()
+	rows, err := db.Query("SELECT ID_DICE, Rank FROM USER_DICE WHERE ID_USER = ?", userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-    for rows.Next() {
-        var dice structure.Dice
-        err := rows.Scan(&dice.Dice, &dice.Rank)
-        if err != nil {
-            return nil, err
-        }
+	for rows.Next() {
+		var dice structure.Dice
+		err := rows.Scan(&dice.Dice, &dice.Rank)
+		if err != nil {
+			return nil, err
+		}
 
 		if dice.Rank == 10 {
 			dice.Price = 0
 			playerDice = append(playerDice, dice)
-			continue	
+			continue
 		}
 
-        priceRow := db.QueryRow("SELECT PRICE FROM PRICE WHERE ID = ?", dice.Rank)
-        err = priceRow.Scan(&dice.Price)
-        if err != nil {
-            return nil, err
-        }
+		priceRow := db.QueryRow("SELECT PRICE FROM PRICE WHERE ID = ?", dice.Rank)
+		err = priceRow.Scan(&dice.Price)
+		if err != nil {
+			return nil, err
+		}
 
-        playerDice = append(playerDice, dice)
-    }
+		playerDice = append(playerDice, dice)
+	}
 
-    if err := rows.Err(); err != nil {
-        return nil, err
-    }
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 
-    return playerDice, nil
+	return playerDice, nil
 }
 
 // GetDiceByID récupère les détails d'un dé par son ID
@@ -99,10 +100,10 @@ func UpdateRank(userID int, diceID string, price int) error {
 	if err != nil {
 		return err
 	}
-    _, err = db.Exec("UPDATE USERS SET Balance = Balance - ? WHERE ID = ?", price, userID)
-    if err != nil {
-        return err
-    }
+	_, err = db.Exec("UPDATE USERS SET Balance = Balance - ? WHERE ID = ?", price, userID)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

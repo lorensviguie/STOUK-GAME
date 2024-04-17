@@ -3,6 +3,7 @@ package data
 import (
 	"database/sql"
 	"fmt"
+	"logs"
 	"structure"
 )
 
@@ -78,11 +79,10 @@ func UpdateAllPlayerdataForGame(playerData structure.PlayerData) (err error) {
 	if err != nil {
 		return fmt.Errorf("error updating ratio data: %w", err)
 	}
-
+	logs.LogToFile("database", fmt.Sprintf("new rank for player %s its %s", playerData.ID, playerData.Rank))
 	fmt.Println("Player data updated successfully!")
 	return nil
 }
-
 
 func GetAllPlayerDataForQueue(userID int) structure.PlayerData {
 	var playerStat structure.PlayerData

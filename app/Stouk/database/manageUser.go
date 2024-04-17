@@ -57,7 +57,7 @@ func AddUser(username, password, email string) error {
 		return err
 	}
 	fmt.Println(username)
-	logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
+	logs.LogToFile("database", "Utilisateur "+username+" ajouté à la base de données avec succès")
 	UpdatePlayerDice(username, "BaseDice", 3)
 	UpdatePlayerDice(username, "NormalDice", 3)
 	UpdatePlayerDice(username, "ParaboleDice", 3)

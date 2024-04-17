@@ -3,6 +3,7 @@ package ladder
 import (
 	"data"
 	"fmt"
+	"logs"
 	"structure"
 )
 
@@ -24,6 +25,7 @@ func GainLP(player structure.PlayerData) int {
 	coef := calculateMultiplierCoefficientForWin(player.Rank, player.MMR, player.RankMoyen)
 	fmt.Println(float64(coef))
 	player.Rank += int(float64(lpChange) * coef)
+	logs.LogToFile("ladder",fmt.Sprintf("New Rank %s for player %s",player.Rank,player.ID))
 	return player.Rank
 }
 
@@ -32,5 +34,6 @@ func LooseLP(player structure.PlayerData) int {
 	lpChange := 20
 	coef := calculateMultiplierCoefficientForLoss(player.Rank, player.MMR, player.RankMoyen)
 	player.Rank -= int(float64(lpChange) * coef)
+	logs.LogToFile("ladder",fmt.Sprintf("New Rank %s for player %s",player.Rank,player.ID))
 	return player.Rank
 }
