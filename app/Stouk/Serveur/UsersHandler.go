@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"structure"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	// Lecture et manipulation des cookies
 	cookie, err := r.Cookie("uuid")
 	if err != nil {
 		fmt.Println(err)
@@ -23,7 +21,6 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Écriture dans la réponse HTTP
 	switch r.Method {
 	case "GET":
 		t, err := template.ParseFiles("./templates/login.html")
@@ -82,12 +79,6 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		password := r.FormValue("password")
 		confirmpassword := r.FormValue("confirmpassword")
 
-		fmt.Println(password)
-		fmt.Println(confirmpassword)
-
-		bool := confirmpassword == password
-		fmt.Println(bool)
-
 		if password == confirmpassword {
 			data.AddUser(username, password, email)
 			cookie := http.Cookie{
@@ -99,34 +90,18 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
-			fmt.Println("Passwords do not match HERE")
-			t, err := template.ParseFiles("./templates/register.html")
-			if err != nil {
-				fmt.Println(err)
-			}
-			// prepareDataWithFragments(&data)
+			t, _ := template.ParseFiles("./templates/register.html")
+
 			t.Execute(w, nil)
 		}
 	}
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("uuid")
-	if err != nil {
-		fmt.Println(err)
-	}
+	cookie, _ := r.Cookie("uuid")
 	data.RemoveAccountUUID(cookie.Value)
 	cookie.MaxAge = -1
 	http.SetCookie(w, cookie)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func Playgame(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("./templates/play.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	data := structure.Account{}
-	tmpl.Execute(w, data)
-}

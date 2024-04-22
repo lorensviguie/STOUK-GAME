@@ -25,7 +25,6 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
             return
         }
 
-        // Handle POST request separately to avoid interference with template execution
         if r.Method == "POST" {
             r.ParseForm()
             id := r.FormValue("id")

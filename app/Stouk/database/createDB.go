@@ -159,18 +159,6 @@ func CreateDB() {
 	}
 	fmt.Println("Table PRICE created successfully")
 
-	_, err = DB.Exec(`
-		CREATE TABLE IF NOT EXISTS PROFIL_PICTURE (
-		ID INT AUTO_INCREMENT PRIMARY KEY,
-		ID_USER INT NOT NULL,
-		PICTURE TEXT NOT NULL,
-		FOREIGN KEY (ID_USER) REFERENCES USERS(ID)
-	);
-	`)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Table PROFIL_PICTURE created successfully")
 
 	Add_Dice("BaseDice", 10, "./static/images/de1.svg")
 	Add_Dice("NormalDice", 10, "./static/images/de2.svg")

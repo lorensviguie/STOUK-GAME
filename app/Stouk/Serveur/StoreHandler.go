@@ -2,7 +2,6 @@ package serveur
 
 import (
 	"data"
-	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -55,8 +54,6 @@ func RankUp(w http.ResponseWriter, r *http.Request) {
 		}
 
 		diceID := r.FormValue("diceNumber")
-		fmt.Println(diceID)
-
 		dice, err := data.GetUserDice(user.Id)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
