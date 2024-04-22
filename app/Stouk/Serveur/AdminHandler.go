@@ -19,7 +19,7 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
-        tmpl, err := template.ParseFiles("./templates/admin.html", "./templates/fragments/header.html")
+        tmpl, err := template.ParseFiles("./templates/admin.html", "./templates/fragments/header.html", "./templates/fragments/footer.html")
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return

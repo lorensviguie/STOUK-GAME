@@ -11,14 +11,14 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("./templates/home.html", "./templates/fragments/header.html")
+	scoreboard := data.GetScoreBoard()
+	tmpl, err := template.ParseFiles("./templates/home.html", "./templates/fragments/header.html", "./templates/fragments/footer.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	data := structure.Account{}
-	tmpl.Execute(w, data)
-
+	fmt.Println("Scoreboard : ", scoreboard)
+	tmpl.Execute(w, scoreboard)
 }
 
 func SearchGame(w http.ResponseWriter, r *http.Request) {

@@ -12,32 +12,38 @@
         }
     </style>
 </head>
-<body class="overflow-hidden">
+<body class="overflow-hidden text-orange-200">
 
     {{ template "header.html" .}}
-    <ul>
-        {{ range .User }}
-        <li>
-            {{ .Balance }}
-        </li>
-        {{ end }}
-    </ul>
-    <ul>
-        {{ range .Dices }}
-        <li>
-            Number: {{ .Dice }}
-            Value: {{ .Rank }}
-            Price : {{ .Price }}
-            {{ if ge .Rank 10 }}
-                Level maximum
-            {{ else }}
-                <form action="/rankup" method="POST">
-                    <input type="hidden" name="diceNumber" value="{{ .Dice }}">
-                    <button type="submit">Level Up</button>
-                </form>
+
+    <div class="max-w-10xl mx-auto py-32 px-4">
+
+        <!-- User Balance -->
+        <ul class="mb-8">
+            {{ range .User }}
+            <li class="text-lg mb-2">Balance: {{ .Balance }}</li>
             {{ end }}
-        </li>
-        {{ end }}
-    </ul>
+        </ul>
+
+        <!-- Dice Items -->
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-6">
+            {{ range .Dices }}
+            <li>
+                <div class="bg-orange-950 border border-b-orange-200 rounded-lg shadow p-6">
+                    <img src="/static/images/de{{ .Dice }}.svg" alt="Dice {{ .Dice }}" class="mx-auto mb-4">
+                    <p class="text-xl font-semibold mb-2">Rank: {{ .Rank }}</p>
+                    <p class="text-lg mb-4">Prix: {{ .Price }}</p>
+                    {{ if ge .Rank 10 }}
+                        <p class="text-red-500">Level maximum</p>
+                    {{ else }}
+                        <form action="/rankup" method="POST">
+                            <input type="hidden" name="diceNumber" value="{{ .Dice }}">
+                            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-orange-500 focus:ring-opacity-50">Level Up</button>
+                        </form>
+                    {{ end }}
+                </div>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
 </body>
-</html>

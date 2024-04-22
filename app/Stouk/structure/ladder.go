@@ -1,6 +1,7 @@
 package structure
 
 type PlayerData struct {
+	Username  string
 	ID        int
 	Rank      int
 	MMR       int
