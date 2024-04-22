@@ -11,7 +11,7 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	scoreboard := data.GetScoreBoard()
+	scoreboard := data.GetAllScoreBoard()
 	tmpl, err := template.ParseFiles("./templates/home.html", "./templates/fragments/header.html", "./templates/fragments/footer.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
