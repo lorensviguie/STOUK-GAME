@@ -30,6 +30,7 @@ func ManageQueue() {
 					fmt.Printf("Retirer %s et %s de la file d'attente\n", player.Username, otherPlayer.Username)
 					player1res, player2res := dice.Dice_Game(data.GetAllPlayerDataForGame(player.Username), data.GetAllPlayerDataForGame(otherPlayer.Username))
 					var addToClaim structure.FindGameAndResult
+					var histoNewGame = &addToClaim
 					addToClaim.Claim = false
 					addToClaim.Player1U = player.Username
 					addToClaim.Player2U = otherPlayer.Username
@@ -38,6 +39,7 @@ func ManageQueue() {
 					player1res.Player_data, player2res.Player_data = DiceApplyResult(player1res, player2res)
 					*structure.QueueFile = append((*structure.QueueFile)[:i], (*structure.QueueFile)[i+1:]...)
 					*structure.QueueFile = append((*structure.QueueFile)[:j-1], (*structure.QueueFile)[j:]...)
+					data.Histo_Add_Game(*histoNewGame)
 					*structure.FindResult = append(*structure.FindResult, addToClaim)
 					antibrake = true
 					break
@@ -78,7 +80,7 @@ func CheckTagForUser(id int) structure.Game_Result {
 }
 
 func checkIFalreadyclaim(claim *bool, i int) {
-	fmt.Println("\n",claim)
+	fmt.Println("\n", claim)
 	if !*claim {
 		*claim = true
 	} else {
@@ -101,17 +103,16 @@ func Add_User_To_Queue(id int) {
 	}
 	playerData := data.GetAllPlayerDataForQueue(id)
 	newUserInQueue := structure.Queue{
-		ID:          playerData.ID,
-		Username:    data.GetUsernameByUserid(id),
-		Rank:        playerData.Rank,
-		Rank_Moyen:  playerData.RankMoyen,
-		Variance:    0,
+		ID:         playerData.ID,
+		Username:   data.GetUsernameByUserid(id),
+		Rank:       playerData.Rank,
+		Rank_Moyen: playerData.RankMoyen,
+		Variance:   0,
 	}
 	*structure.QueueFile = append(*structure.QueueFile, newUserInQueue)
 	fmt.Println(playerData.ID, " Has been added to the Queue")
 	logs.LogToFile("queue", fmt.Sprintln(playerData.ID, " Has been added to the Queue"))
 }
-
 
 func DiceApplyResult(player1res, player2res structure.Game_Result) (structure.PlayerData, structure.PlayerData) {
 	print("\n\n--------------\nCOIN COIN COIN COIN\n----------------\n\n")

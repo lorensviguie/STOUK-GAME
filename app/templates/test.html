@@ -10,15 +10,6 @@
             background-image: url("../static/images/tapis.jpg");
             background-size: cover;
         }
-        .account-info {
-            margin-bottom: 20px;
-        }
-        .history {
-            margin-top: 20px;
-        }
-        .history-item {
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body class="overflow-hidden">
@@ -27,10 +18,8 @@
 
     <div class="flex justify-center items-center h-80 scale-150 mt-60">
         <div class="block max-w p-6 bg-orange-950 border border-b-orange-200 rounded-lg shadow dark:bg-orange-950">
-            <!-- Compte Info -->
-            <div class="account-info">
-                <h2 class="text-orange-200 mb-4">Informations du compte :</h2>
-                <ul>
+            <ul>
+                <form action="/update-compte" method="post" class="m-1">
                     <li class="text-orange-200 mt-1">
                         Utilisateur : <input type="text" name="username" value="{{ .Account.Username }}" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1"> 
                     </li>
@@ -44,36 +33,34 @@
                         Mot de Passe : <input type="password" name="password" placeholder="Mot de passe actuel"  class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1"> 
                         <button type="submit" class="bg-red-900 border border-orange-200 rounded-lg pr-1 pl-1 hover:bg-red-950">Modifier</button>
                     </li>
-                    <li class="text-orange-200 m-1">
-                        Solde : {{ .Account.Balance }}
-                    </li>
-                    <li class="text-orange-200 m-1">
-                        Date de Création : {{ .Account.CreationDate }}
-                    </li>
-                    <img src="{{ .Account.ProfilPicture }}" alt="Profil Picture" class="m-1 w-10 h-10">
-                    <form action="/update-profil-picture" method="post" enctype="multipart/form-data" class="m-1">
-                        <input type="file" id="profil-picture" name="profil-picture" accept="image/*"><br>
-                        <input type="submit" value="Enregistrer">
-                    </form>
-                    <li class="text-orange-200 m-1">
-                        Nombre de victoires : {{ .NbWin }}
-                    </li>
-                    <li class="text-orange-200 m-1">
-                        Nombre de défaites : {{ .NbLoose }}
-                    </li>
-                    <li class="text-orange-200 m-1">
-                        Classement : {{ .Rank }}
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Historique des parties -->
-            <div class="history">
-                <h2 class="text-orange-200 mb-4">Historique des parties :</h2>
+                </form>
+                <li class="text-orange-200 m-1">
+                    Solde : {{ .Account.Balance }}
+                </li>
+                <li class="text-orange-200 m-1">
+                    Date de Création : {{ .Account.CreationDate }}
+                </li>
+                <img src="{{ .Account.ProfilPicture }}" alt="Profil Picture" class="m-1 w-10 h-10">
+                <form action="/update-profil-picture" method="post" enctype="multipart/form-data" class="m-1">
+                    <input type="file" id="profil-picture" name="profil-picture" accept="image/*"><br>
+                    <input type="submit" value="Enregistrer">
+                </form>
+                <li class="text-orange-200 m-1">
+                    Nombre de victoires : {{ .NbWin }}
+                </li>
+                <li class="text-orange-200 m-1">
+                    Nombre de défaites : {{ .NbLoose }}
+                </li>
+                <li class="text-orange-200 m-1">
+                    Classement : {{ .Rank }}
+                </li>
+            </ul>
+            <div>
+                <h2 class="text-orange-200">Historique des parties :</h2>
                 <ul>
                     {{ $accountId := .Account.Id }}
                     {{ range .Historique }}
-                    <li class="history-item text-orange-200">
+                    <li class="text-orange-200">
                         {{ if .Who}}
                             Vous avez joué contre {{ .Player2_Username }}.
                         {{ else }}
@@ -93,7 +80,10 @@
                     {{ end }}
                 </ul>
             </div>
-
-            <!-- Bouton de déconnexion -->
             <form action="/logout" method="post" class="m-1">
-     
+                <button type="submit" class="text-orange-200 bg-red-900 border border-orange-200 rounded-lg pr-1 pl-1 hover:bg-red-950">Déconnexion</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
