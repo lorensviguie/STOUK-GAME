@@ -11,3 +11,6 @@ type PlayerData struct {
 }
 
 
+type Scoreboard struct {
+	Players []PlayerData
+}

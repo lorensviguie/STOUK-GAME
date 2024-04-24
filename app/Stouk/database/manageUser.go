@@ -45,12 +45,12 @@ func AddUser(username, password, email string) error {
 		return err
 	}
 
-    // Insert user entry into PROFIL_PICTURE table with default values
-    _, err = tx.Exec("INSERT INTO PROFIL_PICTURE (ID_USER, PICTURE) VALUES (?, ?)", userID, "./static/images/profilpicture/nopp.png")
-    if err != nil {
-        fmt.Println("Error inserting user into PROFIL_PICTURE:", err)
-        return err
-    }
+	// Insert user entry into PROFIL_PICTURE table with default values
+	_, err = tx.Exec("INSERT INTO PROFIL_PICTURE (ID_USER, PICTURE) VALUES (?, ?)", userID, "./static/images/profilpicture/nopp.png")
+	if err != nil {
+		fmt.Println("Error inserting user into PROFIL_PICTURE:", err)
+		return err
+	}
 
 	if err = tx.Commit(); err != nil {
 		fmt.Println("Error committing transaction:", err)
@@ -58,13 +58,13 @@ func AddUser(username, password, email string) error {
 	}
 	fmt.Println(username)
 	logs.LogToFile("db", "Utilisateur "+username+" ajouté à la base de données avec succès")
-	UpdatePlayerDice(username, "BaseDice", 3)
-	UpdatePlayerDice(username, "NormalDice", 3)
-	UpdatePlayerDice(username, "ParaboleDice", 3)
-	UpdatePlayerDice(username, "PowerDice", 3)
-	UpdatePlayerDice(username, "ScaleDice", 3)
-	UpdatePlayerDice(username, "UnscaleDice", 3)
-	UpdatePlayerDice(username, "RankDice", 3)
+	UpdatePlayerDice(username, "BaseDice", 1)
+	UpdatePlayerDice(username, "NormalDice", 1)
+	UpdatePlayerDice(username, "ParaboleDice", 1)
+	UpdatePlayerDice(username, "PowerDice", 1)
+	UpdatePlayerDice(username, "ScaleDice", 1)
+	UpdatePlayerDice(username, "UnscaleDice", 1)
+	UpdatePlayerDice(username, "RankDice", 1)
 	return nil
 }
 
@@ -183,7 +183,6 @@ func GetUsernameByUserid(id int) string {
 	return userName
 }
 
-
 func GetUserByUUID(uuid string) (structure.Account, error) {
 	db := GetDatabase()
 
@@ -192,10 +191,10 @@ func GetUserByUUID(uuid string) (structure.Account, error) {
 	if err != nil {
 		return structure.Account{}, err
 	}
-    err = db.QueryRow("SELECT PICTURE FROM PROFIL_PICTURE WHERE ID_USER = ?", account.Id).Scan(&account.ProfilPicture)
-    if err != nil {
-        return structure.Account{}, err
-    }
+	err = db.QueryRow("SELECT PICTURE FROM PROFIL_PICTURE WHERE ID_USER = ?", account.Id).Scan(&account.ProfilPicture)
+	if err != nil {
+		return structure.Account{}, err
+	}
 	return account, nil
 }
 
@@ -252,7 +251,7 @@ func UpdateProfilPicture(uuid, picture string) error {
 	db := GetDatabase()
 	_, err := db.Exec("UPDATE PROFIL_PICTURE JOIN ACCOUNT_UUID ON PROFIL_PICTURE.ID_USER = ACCOUNT_UUID.ID_USER SET PROFIL_PICTURE.PICTURE = ? WHERE ACCOUNT_UUID.UUID = ?", picture, uuid)
 	if err != nil {
-        print(err)
+		print(err)
 		return err
 	}
 	return nil

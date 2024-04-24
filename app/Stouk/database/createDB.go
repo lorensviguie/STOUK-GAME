@@ -20,7 +20,7 @@ var DB *sql.DB
 
 func InitDatabase() bool {
 	var err error
-	DB, err = sql.Open("mysql", "root:STOUK@tcp(localhost:3306)/Stouk-GAME")
+	DB, err = sql.Open("mysql", "root:STOUK@tcp(STOUK-GAME:3306)/Stouk-GAME")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -159,18 +159,25 @@ func CreateDB() {
 	}
 	fmt.Println("Table PRICE created successfully")
 
+
 	_, err = DB.Exec(`
-		CREATE TABLE IF NOT EXISTS PROFIL_PICTURE (
-		ID INT AUTO_INCREMENT PRIMARY KEY,
-		ID_USER INT NOT NULL,
-		PICTURE TEXT NOT NULL,
-		FOREIGN KEY (ID_USER) REFERENCES USERS(ID)
+	CREATE TABLE IF NOT EXISTS HISTORIQUE (
+	ID INT AUTO_INCREMENT PRIMARY KEY,
+	ID_PLAYER_1 INT NOT NULL,
+	ID_PLAYER_2 INT NOT NULL,
+	ID_PLAYER_WIN INT NOT NULL,
+	PLAYER_1_WIN INT NOT NULL,
+	PLAYER_2_WIN INT NOT NULL,
+	PLAYER_1_LP_MOD INT NOT NULL,
+	PLAYER_2_LP_MOD INT NOT NULL,
+	FOREIGN KEY (ID_PLAYER_1) REFERENCES USERS(ID),
+	FOREIGN KEY (ID_PLAYER_2) REFERENCES USERS(ID)
 	);
 	`)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Table PROFIL_PICTURE created successfully")
+	fmt.Println("Table HISTORIQUE created successfully")
 
 	Add_Dice("BaseDice", 10, "./static/images/de1.svg")
 	Add_Dice("NormalDice", 10, "./static/images/de2.svg")

@@ -22,14 +22,14 @@ func AccountHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(user)
-
+		Compte := data.GetALLDataForHistorique(user)
 		tmpl, err := template.ParseFiles("./templates/account.html", "./templates/fragments/header.html")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		tmpl.Execute(w, user)
+		fmt.Println(Compte)
+		tmpl.Execute(w, Compte)
 
 	} else {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
