@@ -2,13 +2,13 @@ package main
 
 import (
 	"data"
-	// "queue"
+	"queue"
 	"serveur"
 )
 
 func main() {
 	data.CreateDB()
-	// go queue.ManageQueue()
+	go queue.ManageQueue()
 	serveur.ServeurInit()
 
 }

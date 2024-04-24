@@ -20,7 +20,7 @@ var DB *sql.DB
 
 func InitDatabase() bool {
 	var err error
-	DB, err = sql.Open("mysql", "root:STOUK@tcp(STOUK-GAME:3306)/Stouk-GAME")
+	DB, err = sql.Open("mysql", "root:STOUK@tcp(localhost:3306)/Stouk-GAME")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,6 +68,7 @@ func CreateDB() {
 			ID_USER INT NOT NULL,
 			Rank INT NOT NULL,
 			MMR INT NOT NULL,
+			Rank_picture TEXT,
 			FOREIGN KEY (ID_USER) REFERENCES USERS(ID)
 		);
 	`)

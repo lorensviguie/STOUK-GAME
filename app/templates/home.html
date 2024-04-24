@@ -22,6 +22,7 @@
                 <div class="px-4 py-3">
                     <span class="font-semibold">{{ .Username }}</span>
                     <span class="text-gray-600">, Rank: {{ .Rank }}</span>
+                    <img src="{{ .Rank_picture }}" alt="Rank" class="w-8 h-8 inline-block ml-2">
                 </div>
             </li>
         {{ end }}

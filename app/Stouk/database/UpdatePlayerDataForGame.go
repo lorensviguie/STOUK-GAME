@@ -79,6 +79,8 @@ func UpdateAllPlayerdataForGame(playerData structure.PlayerData) (err error) {
 		return fmt.Errorf("error updating ratio data: %w", err)
 	}
 
+	UpdatePictureRank(playerData.ID, playerData.Rank)
+
 	fmt.Println("Player data updated successfully!")
 	return nil
 }

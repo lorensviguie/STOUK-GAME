@@ -8,6 +8,7 @@ type PlayerData struct {
 	Win       int
 	Lose      int
 	RankMoyen int
+	Rank_picture string
 }
 
 
