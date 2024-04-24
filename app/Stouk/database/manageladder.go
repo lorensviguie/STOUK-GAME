@@ -21,6 +21,26 @@ func GetForUpdateLadder(idPlayer int) structure.PlayerData {
 	return Player_data
 }
 
+<<<<<<< HEAD
+// func GetScoreBoard() structure.PlayerData {
+// 	db := GetDatabase()
+// 	var Player_data structure.PlayerData
+// 	err := db.QueryRow("SELECT ID_User, Rank, MMR FROM LADDER").Scan(&Player_data.ID, &Player_data.Rank, &Player_data.MMR)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	err = db.QueryRow("SELECT Win, Lose, RANK_MOYEN FROM RATIO").Scan(&Player_data.Win, &Player_data.Lose, &Player_data.RankMoyen)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	err = db.QueryRow("SELECT Username FROM USERS", Player_data.ID).Scan(&Player_data.Username)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	return Player_data
+// }
+=======
 func GetAllScoreBoard() structure.Scoreboard {
 	db := GetDatabase()
 	rows, err := db.Query("SELECT USERS.Username, LADDER.Rank, RATIO.Win, RATIO.Lose, LADDER.Rank_picture FROM LADDER JOIN RATIO ON LADDER.ID_USER = RATIO.ID_USER JOIN USERS ON LADDER.ID_USER = USERS.ID")
