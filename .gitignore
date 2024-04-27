@@ -1,4 +1,6 @@
 /database
 /node_modules
 /test
-app\static\styles\output.css
+app/static/styles
+app/static/images/profilpicture
+/app/logs

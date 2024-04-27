@@ -27,19 +27,6 @@
 
     <div class="flex justify-center items-center h-80 scale-150 mt-60">
         <div class="block max-w p-6 bg-orange-950 border border-b-orange-200 rounded-lg shadow dark:bg-orange-950">
-<<<<<<< HEAD
-            <ul>
-                <form action="/update-compte" method="post" class="m-1">
-                    <li class=" mt-1 flex flex-row justify-items-stretch">
-                        <p class="basis-1/3">Utilisateur :</p>
-                        <div class="basis-1/3"></div>
-                        <input type="text" name="username" value="{{ .Username }}" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 basis-1/3 ml-2"> 
-                    </li>
-                    <li class=" mt-1 flex">
-                        <p class="basis-1/3">Email : </p>
-                        <div class="basis-1/3"></div>
-                        <input type="email" name="email" value="{{ .Email }} "  class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 basis-1/3 ml-2">
-=======
             <!-- Compte Info -->
             <div class="account-info">
                 <h2 class="text-orange-200 mb-4">Informations du compte :</h2>
@@ -49,7 +36,6 @@
                     </li>
                     <li class="text-orange-200 mt-1">
                         Email : <input type="email" name="email" value="{{ .Account.Email }} "  class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1">
->>>>>>> 1a67d051f3e6d779aa339ffdd8c3cdda98950ff3
                     </li>
                     <li class=" mt-1 flex" >
                         <p class="basis-1/2">Nouveau mot de passe : </p>
@@ -59,22 +45,6 @@
                         <p class="basis-1/2">Mot de Passe : </p>
                         <input type="password" name="password" placeholder="Mot de passe actuel"  class=" justify-end bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 basis-1/2 ml-2"> 
                     </li>
-<<<<<<< HEAD
-                    <button type="submit" class="bg-red-900 border border-orange-200 rounded-lg pr-1 pl-1 hover:bg-red-950 mt-1">Modifier</button>
-                </form>
-                <li class="text-orange-200 m-1">
-                    Solde : {{ .Balance }}
-                </li>
-                <li class="text-orange-200 m-1">
-                    Date de Création : {{ .CreationDate }}
-                </li>
-                <img src="{{ .ProfilPicture }}" alt="Profil Picture" class="m-1 w-10 h-10">
-                <form action="/update-profil-picture" method="post" enctype="multipart/form-data" class="m-1">
-                    <input type="file" id="profil-picture" name="profil-picture" accept="image/*" class=" "><br>
-                    <input type="submit" value="Enregistrer" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 mt-1"> 
-                </form>
-            </ul>
-=======
                     <li class="text-orange-200 m-1">
                         Solde : {{ .Account.Balance }}
                     </li>
@@ -126,6 +96,5 @@
             </div>
 
             <!-- Bouton de déconnexion -->
->>>>>>> 1a67d051f3e6d779aa339ffdd8c3cdda98950ff3
             <form action="/logout" method="post" class="m-1">
      

@@ -42,7 +42,7 @@ func GetForUpdateLadder(idPlayer int) structure.PlayerData {
 
 func GetAllScoreBoard() structure.Scoreboard {
 	db := GetDatabase()
-	rows, err := db.Query("SELECT USERS.Username, LADDER.Rank, RATIO.Win, RATIO.Lose, LADDER.Rank_picture FROM LADDER JOIN RATIO ON LADDER.ID_USER = RATIO.ID_USER JOIN USERS ON LADDER.ID_USER = USERS.ID")
+	rows, err := db.Query("SELECT USERS.Username, LADDER.Rank, RATIO.Win, RATIO.Lose, LADDER.Rank_picture FROM LADDER JOIN RATIO ON LADDER.ID_USER = RATIO.ID_USER JOIN USERS ON LADDER.ID_USER = USERS.ID ORDER BY LADDER.Rank DESC")
 	if err != nil {
 		panic(err)
 	}
@@ -70,7 +70,7 @@ func UpdatePictureRank(id int, rank int) {
 	case rank >= 400 && rank < 800:
 		_, err = db.Exec("UPDATE LADDER SET Rank_picture = './static/images/logo/bronze.png' WHERE ID_USER = ?", id)
 	case rank >= 800 && rank < 1200:
-		_, err = db.Exec("UPDATE LADDER SET Rank_picture = './static/images/logo/silver.png' WHERE ID_USER = ?", id)
+		_, err = db.Exec("UPDATE LADDER SET Rank_picture = './static/images/logo/argent.png' WHERE ID_USER = ?", id)
 	case rank >= 1200 && rank < 1600:
 		_, err = db.Exec("UPDATE LADDER SET Rank_picture = './static/images/logo/gold.png' WHERE ID_USER = ?", id)
 	case rank >= 1600 && rank < 2000:
