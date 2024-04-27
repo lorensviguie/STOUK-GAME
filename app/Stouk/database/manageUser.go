@@ -65,6 +65,7 @@ func AddUser(username, password, email string) error {
 	UpdatePlayerDice(username, "ScaleDice", 1)
 	UpdatePlayerDice(username, "UnscaleDice", 1)
 	UpdatePlayerDice(username, "RankDice", 1)
+	UpdatePictureRank(int(userID), 1000)
 	return nil
 }
 
