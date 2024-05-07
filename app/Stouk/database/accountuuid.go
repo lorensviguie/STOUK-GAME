@@ -55,7 +55,6 @@ func IsAdmin(uuid string) bool {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(isadmin)
 	return isadmin == 1
 }
 

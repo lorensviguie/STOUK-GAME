@@ -65,7 +65,7 @@ func AddUser(username, password, email string) error {
 	UpdatePlayerDice(username, "ScaleDice", 1)
 	UpdatePlayerDice(username, "UnscaleDice", 1)
 	UpdatePlayerDice(username, "RankDice", 1)
-	UpdatePictureRank(int(userID),1000)
+	CreatePictureRank(int(userID), 1000)
 	return nil
 }
 
@@ -115,7 +115,7 @@ func GetAccountByEmail(email string, withDefer bool) structure.Account {
 func GetAllUsers() ([]structure.Account, error) {
 	db := GetDatabase()
 
-	rows, err := db.Query("SELECT ID, Username, Email, Balance, CreationDate FROM users")
+	rows, err := db.Query("SELECT ID, Username, Email, Balance, CreationDate FROM USERS")
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,7 @@ package data
 import (
 	"database/sql"
 	"fmt"
+	"path/filepath"
 	"structure"
 )
 
@@ -23,7 +24,6 @@ func GetAllPlayerDataForGame(username string) structure.PlayerData {
 		if err != sql.ErrNoRows {
 			fmt.Println("Erreur lors de la récupération des statistiques de LADDER:", err)
 		}
-		// Vous pouvez gérer l'absence de données ici si nécessaire
 	}
 
 	// Récupération du rang moyen de la table RATIO
@@ -37,7 +37,6 @@ func GetAllPlayerDataForGame(username string) structure.PlayerData {
 		if err != sql.ErrNoRows {
 			fmt.Println("Erreur lors de la récupération du rang moyen de RATIO:", err)
 		}
-		// Vous pouvez gérer l'absence de données ici si nécessaire
 	}
 
 	return playerStat
@@ -45,30 +44,20 @@ func GetAllPlayerDataForGame(username string) structure.PlayerData {
 
 func UpdateAllPlayerdataForGame(playerData structure.PlayerData) (err error) {
 	db := GetDatabase()
-
-	// Print player data for verification
-	fmt.Printf("Updating player data for user %d:\n", playerData.ID)
-	fmt.Printf("  Rank: %d\n", playerData.Rank)
-	fmt.Printf("  MMR: %d\n", playerData.MMR)
-	fmt.Printf("  Win: %d\n", playerData.Win)
-	fmt.Printf("  Lose: %d\n", playerData.Lose)
-	fmt.Printf("  RankMoyen: %.2f\n", playerData.RankMoyen)
-	// Prepare update statements with named parameters
 	queryLadder := "UPDATE LADDER SET Rank = ?, MMR = ? WHERE ID_USER = ?;"
 	stmtLadder, err := db.Prepare(queryLadder)
 	if err != nil {
 		return fmt.Errorf("error preparing ladder update statement: %w", err)
 	}
-	defer stmtLadder.Close() // Ensure statement is closed even in case of errors
+	defer stmtLadder.Close()
 
 	queryRatio := "UPDATE RATIO SET WIN = ?, Lose = ?, RANK_MOYEN = ? WHERE ID_USER = ?;"
 	stmtRatio, err := db.Prepare(queryRatio)
 	if err != nil {
 		return fmt.Errorf("error preparing ratio update statement: %w", err)
 	}
-	defer stmtRatio.Close() // Ensure statement is closed even in case of errors
+	defer stmtRatio.Close()
 
-	// Execute update statements with error handling
 	_, err = stmtLadder.Exec(playerData.Rank, playerData.MMR, playerData.ID)
 	if err != nil {
 		return fmt.Errorf("error updating ladder data: %w", err)
@@ -78,13 +67,40 @@ func UpdateAllPlayerdataForGame(playerData structure.PlayerData) (err error) {
 	if err != nil {
 		return fmt.Errorf("error updating ratio data: %w", err)
 	}
+	queryRatio = "UPDATE USERS "
 
 	UpdatePictureRank(playerData.ID, playerData.Rank)
-
-	fmt.Println("Player data updated successfully!")
+	IncreaseBalance(playerData.ID)
 	return nil
 }
 
+func IncreaseBalance(userID int) error {
+	db := GetDatabase()
+	_, err := db.Exec("UPDATE USERS SET balance = balance + 100 WHERE ID = ?", userID)
+	if err != nil {
+		return fmt.Errorf("error increasing balance: %w", err)
+	}
+	return nil
+}
+
+func UpdatePictureRank(userID int, rank int) error {
+	rankThresholds := []int{0, 401, 801, 1201, 1601, 2001, 2401, 2801, 3201, 3601}
+	rankImages := []string{"fer.png", "bronze.png", "argent.png", "gold.png", "platine.png", "emeraude.png", "Diamond.png", "Master.png", "Grandmaitre.png", "challenger.png"}
+	var rankImage string
+	for i, threshold := range rankThresholds {
+		if rank < threshold {
+			rankImage = rankImages[i-1]
+			break
+		}
+	}
+	imagePath := filepath.Join("./static/images/logo/", rankImage)
+	db := GetDatabase()
+	_, err := db.Exec("UPDATE LADDER SET RANK_picture = ? WHERE ID_USER = ?", imagePath, userID)
+	if err != nil {
+		return fmt.Errorf("error updating rank picture: %w", err)
+	}
+	return nil
+}
 
 func GetAllPlayerDataForQueue(userID int) structure.PlayerData {
 	var playerStat structure.PlayerData
@@ -102,7 +118,6 @@ func GetAllPlayerDataForQueue(userID int) structure.PlayerData {
 		if err != sql.ErrNoRows {
 			fmt.Println("Erreur lors de la récupération des statistiques de LADDER:", err)
 		}
-		// Vous pouvez gérer l'absence de données ici si nécessaire
 	}
 
 	// Récupération du rang moyen de la table RATIO
@@ -116,7 +131,6 @@ func GetAllPlayerDataForQueue(userID int) structure.PlayerData {
 		if err != sql.ErrNoRows {
 			fmt.Println("Erreur lors de la récupération du rang moyen de RATIO:", err)
 		}
-		// Vous pouvez gérer l'absence de données ici si nécessaire
 	}
 
 	return playerStat

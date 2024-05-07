@@ -46,7 +46,7 @@ func GetDiceIDByName(name string) (int64, error) {
 	return diceID, nil
 }
 
-func GetDicePathWithID(id int) (string,error) {
+func GetDicePathWithID(id int) (string, error) {
 	db := GetDatabase()
 
 	var dicePath string
@@ -61,7 +61,6 @@ func GetDicePathWithID(id int) (string,error) {
 	return dicePath, nil
 }
 
-
 func Add_Price(price int) error {
 	db := GetDatabase()
 	var count int
@@ -72,7 +71,7 @@ func Add_Price(price int) error {
 	if count > 0 {
 		return err
 	}
-	_ , err = db.Exec("INSERT INTO PRICE (Price) VALUES (?)", price)
+	_, err = db.Exec("INSERT INTO PRICE (Price) VALUES (?)", price)
 	if err != nil {
 		return err
 	}

@@ -12,20 +12,18 @@ import (
 
 func ManageQueue() {
 	fmt.Println("Traitement de la file d'attente...")
-	var up structure.Queue = structure.Queue{ID: -1, Username: "up", Variance: 0, Rank: -1000, Rank_Moyen: -10000}
+	var up structure.Queue = structure.Queue{ID: -1, Username: "up", Variance: 0, Rank: -10000, Rank_Moyen: -10000} //eviter des probleme de users seul et permet de laisser la Q alimenter en users
 	var down structure.Queue = structure.Queue{ID: -1, Username: "down", Variance: 0, Rank: 1000000, Rank_Moyen: 10000000}
 	*structure.QueueFile = append(*structure.QueueFile, up)
 	*structure.QueueFile = append(*structure.QueueFile, down)
 	antibrake := false
 	for {
-		//fmt.Println("Traitement de la file d'attente...")
 		for i, player := range *structure.QueueFile {
 			(*structure.QueueFile)[i].Variance += 20
 			if (*structure.QueueFile)[i].Variance > 400 {
 				(*structure.QueueFile)[i].Variance = 0
 			}
 			for j, otherPlayer := range *structure.QueueFile {
-				//fmt.Println(player.Username, "With this variance : ", player.Variance, " ", player.Rank, " AND ", otherPlayer.Username, "With this variance : ", otherPlayer.Variance, " ", otherPlayer.Rank)
 				if player.ID != otherPlayer.ID && ((player.Rank+player.Variance >= otherPlayer.Rank && player.Rank <= otherPlayer.Rank) || (player.Rank-player.Variance <= otherPlayer.Rank && player.Rank >= otherPlayer.Rank)) {
 					fmt.Printf("Retirer %s et %s de la file d'attente\n", player.Username, otherPlayer.Username)
 					player1res, player2res := dice.Dice_Game(data.GetAllPlayerDataForGame(player.Username), data.GetAllPlayerDataForGame(otherPlayer.Username))
@@ -50,7 +48,7 @@ func ManageQueue() {
 				break
 			}
 		}
-		time.Sleep(1 * time.Second)
+		//time.Sleep(1 * time.Second) pour gerer la viteese de la Q
 	}
 }
 
@@ -58,7 +56,6 @@ func CheckTagForUser(id int) structure.Game_Result {
 	for {
 		for i, game := range *structure.FindResult {
 			if game.Player1res.Player_data.ID == id {
-				fmt.Print("PLayer Find his result", id)
 				claimPointer := &(*structure.FindResult)[i].Claim
 				temp := game.Player1res
 				temp.OpponentName = game.Player2U
@@ -68,7 +65,6 @@ func CheckTagForUser(id int) structure.Game_Result {
 			} else if game.Player2res.Player_data.ID == id {
 				time.Sleep(1 * time.Second)
 				claimPointer := &(*structure.FindResult)[i].Claim
-				fmt.Print("PLayer Find his result", id)
 				temp := game.Player2res
 				temp.OpponentName = game.Player1U
 				temp.Opponent_Dice = game.Player1res.Dice_type
@@ -110,7 +106,6 @@ func Add_User_To_Queue(id int) {
 		Variance:   0,
 	}
 	*structure.QueueFile = append(*structure.QueueFile, newUserInQueue)
-	fmt.Println(playerData.ID, " Has been added to the Queue")
 	logs.LogToFile("queue", fmt.Sprintln(playerData.ID, " Has been added to the Queue"))
 }
 
