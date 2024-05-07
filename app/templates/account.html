@@ -9,6 +9,7 @@
         body {
             background-image: url("../static/images/tapis.jpg");
             background-size: cover;
+            overflow-x: hidden;
         }
         .account-info {
             margin-bottom: 20px;
@@ -21,12 +22,12 @@
         }
     </style>
 </head>
-<body class="overflow-hidden text-orange-200    ">
+<body class="text-orange-200 ">
 
     {{ template "header.html" .}}
 
-    <div class="flex justify-center items-center h-80 scale-150 mt-60">
-        <div class="block max-w p-6 bg-orange-950 border border-b-orange-200 rounded-lg shadow dark:bg-orange-950">
+    <div class="flex justify-center items-center scale-150 mt-60">
+        <div class="block max-w p-6 bg-orange-950 border border-orange-200 rounded-lg shadow dark:bg-orange-950">
             <!-- Compte Info -->
             <div class="account-info">
                 <h2 class="text-orange-200 mb-4">Informations du compte :</h2>
@@ -74,7 +75,7 @@
                 <ul>
                     {{ $accountId := .Account.Id }}
                     {{ range .Historique }}
-                    <li class="history-item text-orange-200">
+                    <li class="history-item text-orange-200 border border-orange-200 pl-1">
                         {{ if .Who}}
                             Vous avez joué contre {{ .Player2_Username }}.
                         {{ else }}
@@ -97,4 +98,6 @@
 
             <!-- Bouton de déconnexion -->
             <form action="/logout" method="post" class="m-1">
+                <input type="submit" value="Déconnexion" class="bg-red-900 hover:bg-red-800 border border-orange-200 p-2 rounded-lg">
+            </form>
      

@@ -12,22 +12,22 @@
         }
     </style>
 </head>
-<body>
+<body class="">
     {{ template "header.html" . }}
 
-<div class="max-w-md mx-auto mt-8">
-    <ul class="divide-y divide-gray-200">
-        {{ range .Players }}
-            <li class="bg-white shadow-md rounded-md overflow-hidden">
-                <div class="px-4 py-3">
-                    <span class="font-semibold">{{ .Username }}</span>
-                    <span class="text-gray-600">, Rank: {{ .Rank }}</span>
-                    <img src="{{ .Rank_picture }}" alt="Rank" class="w-8 h-8 inline-block ml-2">
-                </div>
-            </li>
-        {{ end }}
-    </ul>
-</div>
+    <div class="flex justify-center mt-60">
+        <ul class="">
+            {{ range .Players }}
+                <li class="bg-white shadow-md rounded-md">
+                    <div class="px-4 py-3 mt-1">
+                        <span class="font-semibold">{{ .Username }}</span>
+                        <span class="text-gray-600">, Rank: {{ .Rank }}</span>
+                        <img src="{{ .Rank_picture }}" alt="Rank" class="w-8 h-8 inline-block ml-2">
+                    </div>
+                </li>
+            {{ end }}
+        </ul>
+    </div>
 
     
 </body>
