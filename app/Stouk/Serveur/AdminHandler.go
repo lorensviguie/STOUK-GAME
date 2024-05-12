@@ -30,10 +30,26 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			r.ParseForm()
 			id := r.FormValue("id")
-			data.DeleteUser(id)
+			action := r.FormValue("action")
+			balance := r.FormValue("balance")
+			fmt.Println("ID:", id, "Action:", action, "Balance:", balance)
+		
+			switch action {
+			case "delete":
+				data.DeleteUser(id)
+			case "add_balance":
+				if balance != "" {
+					data.UpdateBalance(id, balance)
+				}
+			case "remove_admin":
+				data.DeleteAdmin(id, "")
+			case "set_admin":
+				data.SetAdmin(id, "")
+			}
+		
 			http.Redirect(w, r, "/panel-admin", http.StatusSeeOther)
-			return
 		}
+		
 
 		tmpl.Execute(w, structure.AdminData{Users: users})
 	} else {

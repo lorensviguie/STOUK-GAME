@@ -20,19 +20,19 @@
                 <li>Utilisateur : {{ .Username }}, Solde : {{ .Balance }}</li>
                 <form method="POST">
                     <input type="hidden" name="id" value="{{ .Id }}">
-                    <button type="submit">Supprimer</button>
+                    
+                    <button type="submit" name="action" value="delete">Supprimer</button>
                     
                     <input type="number" name="balance" placeholder="Ajouter">
-                    <button type="submit">Ajouter</button>
-
+                    <button type="submit" name="action" value="add_balance">Ajouter</button>
+                
                     {{ if .IsAdmin }}
-                        <input type="hidden" name="id" value="{{ .Id }}">
-                        <button type="submit">Retirer les droits d'administrateur</button>
+                        <button type="submit" name="action" value="remove_admin">Retirer les droits d'administrateur</button>
                     {{ else }}
-                        <input type="hidden" name="id" value="{{ .Id }}">
-                        <button type="submit">Définir en tant qu'administrateur</button>
+                        <button type="submit" name="action" value="set_admin">Définir en tant qu'administrateur</button>
                     {{ end }}
                 </form>
+                
             {{ end }}
         </ul>
     </div>

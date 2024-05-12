@@ -257,3 +257,18 @@ func UpdateProfilPicture(uuid, picture string) error {
 	}
 	return nil
 }
+
+func UpdateBalance(id, balance string) {
+	db := GetDatabase()
+	db.Exec("UPDATE USERS SET Balance = Balance + ? WHERE ID = ?", balance, id)
+}
+
+func SetAdmin(id, setrole string) {
+	db := GetDatabase()
+	db.Exec("UPDATE USERS SET IsAdmin = 1 WHERE ID = ?", id)
+}
+
+func DeleteAdmin(id, delrole string) {
+	db := GetDatabase()
+	db.Exec("UPDATE USERS SET IsAdmin = 0 WHERE ID = ?", id)
+}
