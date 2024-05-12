@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -211,8 +211,6 @@ textarea {
   /* 1 */
   line-height: inherit;
   /* 1 */
-  letter-spacing: inherit;
-  /* 1 */
   color: inherit;
   /* 1 */
   margin: 0;
@@ -236,9 +234,9 @@ select {
 */
 
 button,
-input:where([type='button']),
-input:where([type='reset']),
-input:where([type='submit']) {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
@@ -494,10 +492,6 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
-  --tw-contain-size:  ;
-  --tw-contain-layout:  ;
-  --tw-contain-paint:  ;
-  --tw-contain-style:  ;
 }
 
 ::backdrop {
@@ -548,10 +542,14 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
-  --tw-contain-size:  ;
-  --tw-contain-layout:  ;
-  --tw-contain-paint:  ;
-  --tw-contain-style:  ;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-50 {
+  z-index: 50;
 }
 
 .m-1 {
@@ -560,6 +558,10 @@ video {
 
 .m-2 {
   margin: 0.5rem;
+}
+
+.m-10 {
+  margin: 2.5rem;
 }
 
 .mx-auto {
@@ -618,6 +620,18 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
+.mt-20 {
+  margin-top: 5rem;
+}
+
+.mt-40 {
+  margin-top: 10rem;
 }
 
 .block {
@@ -864,6 +878,11 @@ video {
 
 .text-end {
   text-align: end;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
 }
 
 .text-lg {
