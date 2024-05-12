@@ -6,42 +6,6 @@
         "content": "This user is add to Queue %!s(int=0),\n17/04/2024:09:22"
     },
     {
-        "content": "This user is add to Queue %!s(int=0),\n17/04/2024:09:23"
-    },
-    {
-        "content": "This user is add to Queue %!s(int=4),lolo\n17/04/2024:09:24"
-    },
-    {
-        "content": "This user is add to Queue %!s(int=3),toto\n17/04/2024:09:24"
-    },
-    {
-        "content": "This user Find a game %!s(int=4),lolo\n17/04/2024:09:24"
-    },
-    {
-        "content": "This user Find a game %!s(int=3),toto\n17/04/2024:09:24"
-    },
-    {
-        "content": "This user is add to Queue %!s(int=4),lolo\n17/04/2024:09:25"
-    },
-    {
-        "content": "This user is add to Queue %!s(int=3),toto\n17/04/2024:09:25"
-    },
-    {
-        "content": "This user Find a game %!s(int=4),lolo\n17/04/2024:09:25"
-    },
-    {
-        "content": "This user Find a game %!s(int=3),toto\n17/04/2024:09:25"
-    },
-    {
-        "content": "This user is add to Queue %!s(int=4),lolo\n17/04/2024:09:46"
-    },
-    {
-        "content": "This user is add to Queue %!s(int=3),toto\n17/04/2024:09:46"
-    },
-    {
-        "content": "This user Find a game %!s(int=4),lolo\n17/04/2024:09:46"
-    },
-    {
         "content": "This user Find a game %!s(int=3),toto\n17/04/2024:09:46"
     }
 ]
