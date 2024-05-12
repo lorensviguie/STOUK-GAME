@@ -9,4 +9,5 @@ use (
 	./app/Stouk/logs
 	./app/Stouk/structure
 	./app/main
+	./app/Stouk/queue
 )

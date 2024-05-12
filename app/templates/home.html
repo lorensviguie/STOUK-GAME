@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head class="overflow-hidden">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./static/styles/output.css"rel="stylesheet">
+    <title>STOUK</title>
+    <style>
+        body {
+            background-image: url('./static/images/tapis.jpg');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="">
+    {{ template "header.html" . }}
+
+    <div class="flex justify-center mt-60">
+        <ul class="">
+            {{ range .Players }}
+                <li class="bg-white shadow-md rounded-md">
+                    <div class="px-4 py-3 mt-1">
+                        <span class="font-semibold">{{ .Username }}</span>
+                        <span class="text-gray-600">, Rank: {{ .Rank }}</span>
+                        <img src="{{ .Rank_picture }}" alt="Rank" class="w-8 h-8 inline-block ml-2">
+                    </div>
+                </li>
+            {{ end }}
+        </ul>
+    </div>
+
+    
+</body>
+
+</html> 

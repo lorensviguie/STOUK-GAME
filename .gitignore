@@ -1,1 +1,6 @@
-database/*   
+/database
+/node_modules
+/test
+app/static/styles
+app/static/images/profilpicture
+/app/logs

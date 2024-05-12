@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/styles/output.css" rel="stylesheet">
+    <title>STOUK</title>    
+    <style>
+        body {
+            background-image: url("../static/images/tapis.jpg");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+    {{ template "header.html" .}}
+    <div>
+        <ul>
+            {{ range .Users }}
+                <li>Utilisateur : {{ .Username }}, Solde : {{ .Balance }}</li>
+                <form method="POST">
+                    <input type="hidden" name="id" value="{{ .Id }}">
+                    
+                    <button type="submit" name="action" value="delete">Supprimer</button>
+                    
+                    <input type="number" name="balance" placeholder="Ajouter">
+                    <button type="submit" name="action" value="add_balance">Ajouter</button>
+                
+                    {{ if .IsAdmin }}
+                        <button type="submit" name="action" value="remove_admin">Retirer les droits d'administrateur</button>
+                    {{ else }}
+                        <button type="submit" name="action" value="set_admin">Définir en tant qu'administrateur</button>
+                    {{ end }}
+                </form>
+                
+            {{ end }}
+        </ul>
+    </div>
+</body>
+</html> 

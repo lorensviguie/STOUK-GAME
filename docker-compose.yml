@@ -1,16 +1,23 @@
 version: '3'
+
  
+networks:
+  Stouk-network:
+    driver: bridge
+
 services:
-  STOUK-GAME:
-    image: golang:latest
+  stouk-game:
+    build: .
     restart: unless-stopped
-    working_dir: /go/src/app
+    working_dir: /go/src/app         
     volumes:
-      - ./:/go/src/app
+      - ./:/go/src/app               
     ports:
-      - 443:443
-      - 80:80
+      - 443:8000
+      - 80:8000
     command: ["tail", "-f", "/dev/null"]
+    networks:
+      - Stouk-network
 
   stouk-db:
     image: mariadb:latest
@@ -24,9 +31,11 @@ services:
       - ./database/:/var/lib/mysql/
     ports:
       - 3306:3306
+    networks:
+      - Stouk-network
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin/phpmyadmin:latest 
     container_name: phpmyadmin
     restart: unless-stopped
     environment:
@@ -38,5 +47,6 @@ services:
     ports:
       - 8080:80
     depends_on:
-      - STOUK-GAME
-    
+      - stouk-game
+    networks:
+      - Stouk-network

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/styles/output.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+    body {
+        background-image: url("./static/images/tapis.jpg");
+        background-size: cover;
+    }
+</style>
+<body>
+    <div class="w-full h-36 border-b border-b-orange-200 bg-orange-950">
+        <div class="flex flex-nowrap justify-center">
+            <a href="/" class="bg-red-900 hover:bg-red-800 w-50 p-4 rounded-full mt-8 ml-20 mr-20">
+                <img class="w-12" src="../static/images/home.svg"/>
+            </a>
+            <a href="/contact" class="bg-red-900 hover:bg-red-800 p-4 rounded-full mt-8 ml-20 mr-20">
+                <img class="w-12" src="../static/images/phone.svg" alt="Account Image"/>
+            </a>
+            <a href="/boutique" class="bg-red-900 hover:bg-red-800 p-4 rounded-full mt-8 ml-20 mr-20">
+                <img class="w-12" src="../static/images/cart.svg" alt="Account Image"/>
+            </a>
+            <a href="/compte" class="bg-red-900 hover:bg-red-800 p-4 rounded-full mt-8 ml-20 mr-20">
+                <img class="w-12" src="../static/images/account.svg" alt="Account Image"/>
+            </a>
+        </div>
+        <div class="flex flex-nowrap justify-center">
+            <a href="/play" class="bg-orange-950 hover:bg-red-800 border border-orange-200 p-8 rounded-full">
+                <img class="w-12" src="../static/images/dice1.svg" alt="Account Image"/>
+            </a>
+        </div>
+    </div>
+
+    <div class="flex flex-row justify-center text-orange-200 ">
+        <div class="grid grid-rows-6 gap-4 mr-20">
+            <p class="ml-1 underline">{{.Game.PlayerName}} {{.Game.Player_data.Rank}}</p>
+            
+            <div><img src="{{.DicePath.Pathdice1}}"></div>
+            <div><img src="{{.DicePath.Pathdice2}}"></div>
+            <div><img src="{{.DicePath.Pathdice3}}"></div>
+            <div><img src="{{.DicePath.Pathdice4}}"></div>
+            <div><img src="{{.DicePath.Pathdice5}}"></div>
+        </div>
+        <div class="grid grid-rows-6 gap-4 items-center mr-20">
+            <div></div>
+            {{range .Game.Your_Game_roll}}
+                <div class="">{{.}}</div>
+                {{end}}
+        </div>
+        <div class="grid grid-rows-6 gap-4 items-center text-center">
+            <div></div>
+            <div>resultat du jeu</div>
+            <div></div>
+            <p>Votre nombre de victoires: {{.Game.Game_res.Player1_Win}}</p>
+            <p>Nombre de victoires de l'adversaire: {{.Game.Game_res.Player2_Win}}</p>
+            <p>Nombre de victoire du joueur : {{.Game.Player_data.Win}}</p>
+            <p>Nombre de Defaite du joueur : {{.Game.Player_data.Lose}}</p>
+        </div>
+
+        <div class="grid grid-rows-6 gap-4 items-center ml-20">
+            <div></div>
+            {{range .Game.Enemy_Game_roll}}
+            <div class="">{{.}}</div>
+            {{end}}
+        </div>
+        <div class="grid grid-rows-6 gap-4 ml-20">
+            <p class="mr-1 underline text-end"> {{.Game.OpponentName}}</p>
+            <div><img src="{{.DicePath.Pathdice6}}"></div>
+            <div><img src="{{.DicePath.Pathdice7}}"></div>
+            <div><img src="{{.DicePath.Pathdice8}}"></div>
+            <div><img src="{{.DicePath.Pathdice9}}"></div>
+            <div><img src="{{.DicePath.Pathdice10}}"></div>
+        </div>
+    </div>
+        
+</body>

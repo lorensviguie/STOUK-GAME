@@ -2,11 +2,13 @@ package main
 
 import (
 	"data"
+	"queue"
+	"serveur"
 )
 
 func main() {
 	data.CreateDB()
-	data.Add_Dice("base",10)
-	data.CreateUser("farkas", "test")
-	data.CreateUser("coin", "test")
+	go queue.ManageQueue()
+	serveur.ServeurInit()
+
 }

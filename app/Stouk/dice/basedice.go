@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func RollBaseDice(rank int) int {
+func Roll_Base_Dice(rank int) int {
 	rand.Seed(time.Now().UnixNano())
 	randomNumber := rand.Intn(100) + 1
 
@@ -33,7 +33,7 @@ func RollBaseDice(rank int) int {
 		return (randomNumber % 8) + 1
 	case 6:
 		// Emerald: le pourcentage des chiffres entre 1 et 3 passe à 5%
-		if randomNumber <= 5 {
+		if randomNumber <= 15 {
 			return randomNumber%3 + 1
 		}
 		return (randomNumber-5)/16 + 4
@@ -45,7 +45,7 @@ func RollBaseDice(rank int) int {
 		return (randomNumber % 10) + 1
 	case 9:
 		// Grand Master: le pourcentage des chiffres entre 1 et 5 passe à 5%
-		if randomNumber <= 5 {
+		if randomNumber <= 25 {
 			return randomNumber%5 + 1
 		}
 		return (randomNumber-5)/19 + 6
