@@ -115,7 +115,7 @@ func GetAccountByEmail(email string, withDefer bool) structure.Account {
 func GetAllUsers() ([]structure.Account, error) {
 	db := GetDatabase()
 
-	rows, err := db.Query("SELECT ID, Username, Email, Balance, CreationDate FROM USERS")
+	rows, err := db.Query("SELECT ID, Username, Email, Balance, CreationDate, IsAdmin FROM USERS")
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ func GetAllUsers() ([]structure.Account, error) {
 	var users []structure.Account
 	for rows.Next() {
 		var user structure.Account
-		err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Balance, &user.CreationDate)
+		err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Balance, &user.CreationDate, &user.IsAdmin)
 		if err != nil {
 			return nil, err
 		}

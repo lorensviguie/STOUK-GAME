@@ -2,6 +2,7 @@ package serveur
 
 import (
 	"data"
+	"fmt"
 	"html/template"
 	"net/http"
 	"structure"
@@ -15,6 +16,7 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if data.IsAdmin(cookie.Value) {
 		users, err := data.GetAllUsers()
+		fmt.Println(users)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

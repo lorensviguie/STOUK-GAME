@@ -8,6 +8,7 @@ type Account struct {
 	Balance       int
 	ProfilPicture string
 	CreationDate  string
+	IsAdmin       bool
 }
 
 type Historique struct {
