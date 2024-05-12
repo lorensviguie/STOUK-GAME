@@ -12,24 +12,24 @@
         }
     </style>
 </head>
-<body class="overflow-hidden">
+<body class="overflow-hidden ">
     {{ template "header.html" .}}
-    <div>
+    <div class="p-6 w-16 bg-orange-950 border border-orange-200 rounded-lg shadow dark:bg-orange-950 text-orange-200 mt-60">
         <ul>
             {{ range .Users }}
                 <li>Utilisateur : {{ .Username }}, Solde : {{ .Balance }}</li>
                 <form method="POST">
                     <input type="hidden" name="id" value="{{ .Id }}">
                     
-                    <button type="submit" name="action" value="delete">Supprimer</button>
+                    <button type="submit" name="action" value="delete" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 basis-1/2 ml-2">Supprimer</button>
                     
                     <input type="number" name="balance" placeholder="Ajouter">
-                    <button type="submit" name="action" value="add_balance">Ajouter</button>
+                    <button type="submit" name="action" value="add_balance" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 basis-1/2 ml-2">Ajouter</button>
                 
                     {{ if .IsAdmin }}
-                        <button type="submit" name="action" value="remove_admin">Retirer les droits d'administrateur</button>
+                        <button type="submit" name="action" value="remove_admin" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 basis-1/2 ml-2">Retirer les droits d'administrateur</button>
                     {{ else }}
-                        <button type="submit" name="action" value="set_admin">Définir en tant qu'administrateur</button>
+                        <button type="submit" name="action" value="set_admin" class="bg-red-900 border border-orange-200 focus:outline-none rounded-lg pr-1 pl-1 basis-1/2 ml-2">Définir en tant qu'administrateur</button>
                     {{ end }}
                 </form>
                 
